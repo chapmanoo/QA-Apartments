@@ -69,7 +69,7 @@ public class Apartment {
 	private Double deposit;
 	
 	@Embedded
-	Address addressField;
+	private Address addressField;
 
 	public Apartment() {
 
@@ -221,5 +221,15 @@ public class Apartment {
 	public void setDeposit(Double deposit) {
 		this.deposit = deposit;
 	}
+
+	public Address getAddressField() {
+		return addressField;
+	}
+
+	public void setAddressField(Address addressField) {
+		this.addressField = addressField;
+	}
+	
+	
 
 }
