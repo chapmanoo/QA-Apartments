@@ -3,6 +3,7 @@ package com.qa.apartment.persistance;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import com.qa.apartment.persistance.Address;
 
 @Entity
 public class Apartment {
@@ -66,6 +67,9 @@ public class Apartment {
 	@Column (length = 9)
 	@NotNull
 	private Double deposit;
+	
+	@Embedded
+	Address addressField;
 
 	public Apartment() {
 
@@ -73,7 +77,7 @@ public class Apartment {
 	
 	public Apartment(String buildingName, String apartmentNo, String agency, String landlord, String tenant,
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
-			String notes, String address, Double deposit) {
+			String notes, String address, Double deposit, Address addressObj) {
 		this.buildingName = buildingName;
 		this.apartmentNo = apartmentNo;
 		this.agency = agency;
@@ -88,12 +92,13 @@ public class Apartment {
 		this.notes = notes;
 		this.address = address;
 		this.deposit = deposit;
+		this.addressField = addressObj;
 	}
 	
 	public Apartment(Long id, String buildingName, String apartmentNo, String agency, String landlord, String tenant,
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
-			String notes, String address, Double deposit) {
-		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo, noRooms, rent, notes, address, deposit);
+			String notes, String address, Double deposit, Address addressObj) {
+		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo, noRooms, rent, notes, address, deposit, addressObj);
 		this.id = id;
 	}
 
