@@ -1,4 +1,8 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const baseURL = "http://localhost:8080/qa-apartments3/Rest/apartment/json"
 
@@ -17,7 +21,10 @@ class AddApartment extends React.Component {
         constructor(){
       super();
       this.state={
-        apartment:{}
+        apartment:{},
+        leaseStart: moment(),
+        leaseEnd: moment(),
+        breakClause: moment()
       }
     }
 
@@ -31,6 +38,12 @@ class AddApartment extends React.Component {
         const stateToSend = {...this.state.apartment}
         create(JSON.stringify(stateToSend))
     }
+
+    handleChange =(date)=> {
+        this.setState({
+          startDate: date
+        });
+      }
     
    
       render(){
@@ -44,9 +57,10 @@ class AddApartment extends React.Component {
                 <input type='text' id='agency' onChange={this.onChange} placeholder='Agency'/>*<br/>
                 <input type='text' id='landlord' onChange={this.onChange} placeholder='Landlord'/><br/>
                 <input type='text' id='tenant' onChange={this.onChange} placeholder='Tenant'/>*<br/>
-                <input type='text' id='leaseStart' onChange={this.onChange} placeholder='Lease Start: yyyy-mm-dd'/>*<br/>
-                <input type='text' id='leaseEnd' onChange={this.onChange} placeholder='Lease End: yyyy-mm-dd'/>*<br/>
-                <input type='text' id='breakClause' onChange={this.onChange} placeholder='Break Clause: yyyy-mm-dd'/>*<br/>
+                <DatePicker id='leaseStart' selected={this.state.startDate}onChange={this.handleChange}/>
+                <DatePicker id='leaseEnd' selected={this.state.startDate}onChange={this.handleChange}/>
+                <DatePicker id='breakClause' selected={this.state.startDate}onChange={this.handleChange}/>
+                {/*Change LeaseStart, End and Clause to use dates*/}
                 <input type='text' id='agencyPhoneNo' onChange={this.onChange} placeholder='Agency Telephone Number'/>*<br/>
                 <input type='text' id='noRooms' onChange={this.onChange} placeholder='Number of rooms'/><br/>
                 <input type='text' id='rent' onChange={this.onChange} placeholder='Rent: 00.00'/>*<br/>
