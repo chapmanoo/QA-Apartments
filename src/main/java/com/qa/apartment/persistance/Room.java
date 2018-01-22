@@ -1,6 +1,5 @@
 package com.qa.apartment.persistance;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -16,7 +15,7 @@ public class Room {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long roomId;
 	
-	@Column (length = 1000)
+	
 	@ManyToOne
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_room_apartment"))
 	private Apartment apartment;
