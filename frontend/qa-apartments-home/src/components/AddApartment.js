@@ -1,9 +1,9 @@
 import React from 'react';
 
-const baseURL = "http://localhost:8080/qa-apartments3/Rest/apartment/json"
+import {baseUrl} from './helperFunctions';
 
 function create(apartmentObject){
-    const request = new Request(baseURL, {
+    const request = new Request(`${baseUrl}/apartment/json/`, {
         method: "POST",
         headers : {
             'contentType' : 'application/json'
@@ -15,10 +15,10 @@ function create(apartmentObject){
 
 class AddApartment extends React.Component {
         constructor(){
-      super();
-      this.state={
-        apartment:{}
-      }
+        super();
+        this.state={
+            apartment:{}
+        }
     }
 
     onChange=e=>{
