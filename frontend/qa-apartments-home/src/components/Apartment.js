@@ -4,6 +4,8 @@ import ApartmentList from './ApartmentComps/ApartmentList';
 import RoomList from './ApartmentComps/RoomList';
 import RoomSchedule from './ApartmentComps/RoomSchedule';
 
+const pjson = require('./BackendURL.json');
+
 class Apartment extends React.Component {
 
       constructor() {
@@ -26,7 +28,7 @@ class Apartment extends React.Component {
     let selectBox = document.getElementById("apartmentSelect");
     let selectedValue = selectBox.options[selectBox.selectedIndex].value;
     let id;
-    let url = "http://localhost:8080/qa-apartments3/Rest/apartment/json/";
+    let url = pjson.URL + "/qa-apartments3/Rest/apartment/json/";
 
     let leaseStartBox = document.getElementById("leaseStartBox");
     let leaseEndBox = document.getElementById("leaseEndBox");
