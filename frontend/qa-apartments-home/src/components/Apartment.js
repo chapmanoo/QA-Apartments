@@ -6,8 +6,6 @@ import RoomSchedule from './ApartmentComps/RoomSchedule';
 
 import {baseUrl} from './helperFunctions';
 
-const pjson = require('./BackendURL.json');
-
 class Apartment extends React.Component {
 
       constructor() {
@@ -29,7 +27,7 @@ class Apartment extends React.Component {
     let selectBox = document.getElementById("apartmentSelect");
     let selectedValue = selectBox.options[selectBox.selectedIndex].value;
     let id;
-    const url = `${baseUrl}/apartment/json/`;
+    const url = `${baseUrl}apartment/json/`;
 
     let leaseStartBox = document.getElementById("leaseStartBox");
     let leaseEndBox = document.getElementById("leaseEndBox");
@@ -69,7 +67,6 @@ class Apartment extends React.Component {
 }
 
 getApartmentList = () => {
-
   let url = `${baseUrl}apartment/json/`;
   let fetchData = { 
     method: 'GET',
@@ -97,7 +94,7 @@ getApartmentList = () => {
 
 getAllRooms = (idValue) => {
 
-  let url = `${baseUrl}/room/getRoom/`;
+  let url = `${baseUrl}room/getRoom/`;
   
   let fetchData = { 
     method: 'GET',
@@ -126,7 +123,7 @@ getAllRooms = (idValue) => {
 getRoomDetails = () => {
   let selectBox = document.getElementById("roomSelect");
   let selectedValue = selectBox.options[selectBox.selectedIndex].value;
-  let url = `${baseUrl}schedule/json`;
+  let url = `${baseUrl}schedule/json/`;
 
   let fetchData = { 
     method: 'GET',

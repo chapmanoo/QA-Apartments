@@ -3,7 +3,7 @@ import React from 'react';
 import {baseUrl} from './helperFunctions';
 
 function create(apartmentObject){
-    const request = new Request(`${baseUrl}/apartment/json/`, {
+    const request = new Request(`${baseUrl}apartment/json/`, {
         method: "POST",
         headers : {
             'contentType' : 'application/json'
