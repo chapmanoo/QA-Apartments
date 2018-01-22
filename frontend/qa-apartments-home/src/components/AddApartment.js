@@ -22,8 +22,8 @@ class AddApartment extends React.Component {
       super();
       this.state={
         apartment:{},
-        leaseStart: moment(),
-        leaseEnd: moment(),
+        startDate: moment(),
+        endDate: moment(),
         breakClause: moment()
       }
     }
@@ -39,9 +39,21 @@ class AddApartment extends React.Component {
         create(JSON.stringify(stateToSend))
     }
 
-    handleChange =(date)=> {
+    handleChange1 =(date)=> {
         this.setState({
-          startDate: date
+          startDate: date,
+        });
+      }
+
+      handleChange2 =(date)=> {
+        this.setState({
+          endDate: date
+        });
+      }
+
+      handleChange3 =(date)=> {
+        this.setState({
+          breakClause: date
         });
       }
     
@@ -57,9 +69,9 @@ class AddApartment extends React.Component {
                 <input type='text' id='agency' onChange={this.onChange} placeholder='Agency'/>*<br/>
                 <input type='text' id='landlord' onChange={this.onChange} placeholder='Landlord'/><br/>
                 <input type='text' id='tenant' onChange={this.onChange} placeholder='Tenant'/>*<br/>
-                <DatePicker id='leaseStart' selected={this.state.startDate}onChange={this.handleChange}/>
-                <DatePicker id='leaseEnd' selected={this.state.startDate}onChange={this.handleChange}/>
-                <DatePicker id='breakClause' selected={this.state.startDate}onChange={this.handleChange}/>
+                <DatePicker id='leaseStart' selected={this.state.startDate}onChange={this.handleChange1}/>
+                <DatePicker id='leaseEnd' selected={this.state.endDate}onChange={this.handleChange2}/>
+                <DatePicker id='breakClause' selected={this.state.breakClause}onChange={this.handleChange3}/>
                 {/*Change LeaseStart, End and Clause to use dates*/}
                 <input type='text' id='agencyPhoneNo' onChange={this.onChange} placeholder='Agency Telephone Number'/>*<br/>
                 <input type='text' id='noRooms' onChange={this.onChange} placeholder='Number of rooms'/><br/>
