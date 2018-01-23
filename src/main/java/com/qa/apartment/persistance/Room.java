@@ -14,8 +14,7 @@ public class Room {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long roomId;
-	
-	
+  
 	@ManyToOne
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_room_apartment"))
 	private Apartment apartment;

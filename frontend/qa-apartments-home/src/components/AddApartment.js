@@ -8,9 +8,13 @@ function create(apartmentObject){
         headers : {
             'contentType' : 'application/json'
         },
-        body : apartmentObject
-    });
-    return fetch(request).then(()=>'worked', ()=>'failed');
+        body: apartmentObject
+    };
+
+    fetch(url, fetchData).then((response)=>{
+        alert(response);
+      });
+
 }
 
 class AddApartment extends React.Component {
@@ -28,7 +32,22 @@ class AddApartment extends React.Component {
     }
 
     addApartment=()=>{
-        const stateToSend = {...this.state.apartment}
+
+        let apartNum = document.getElementById("apartmentNum").value;
+        let building = document.getElementById("building").value;
+        let street = document.getElementById("street").value;
+        let city = document.getElementById("city").value;
+        let postcode = document.getElementById("postcode").value;
+
+        let stateToSend = {...this.state.apartment}
+        stateToSend.addressField = {
+            "apartmentNum":apartNum,
+            "building":building,
+            "street":street,
+            "city":city,
+            "postCode":postcode
+        };
+        alert(JSON.stringify(stateToSend));
         create(JSON.stringify(stateToSend))
     }
     
@@ -52,6 +71,7 @@ class AddApartment extends React.Component {
                 <input type='text' id='rent' onChange={this.onChange} placeholder='Rent: 00.00'/>*<br/>
                 <input type='text' id='notes' onChange={this.onChange} placeholder='Notes here...'/><br/>
                 <input type='textblock' id='address' onChange={this.onChange} placeholder='Address line 1'/>*<br/>
+
                 {/* 
                 <input type='textblock' id='address2' onChange={this.onChange} placeholder='address line 2'/><br/>
                 <input type='textblock' id='address3' onChange={this.onChange} placeholder='address line 3'/><br/>
@@ -60,6 +80,13 @@ class AddApartment extends React.Component {
                 <input type='text' id='deposit' onChange={this.onChange} placeholder='deposit'/>*<br/>
                 <button onClick={()=>this.addApartment()}> Submit </button>
             </form>
+
+            <input type='text' id='apartmentNum'/><br/>
+            <input type='text' id='building'/><br/>
+            <input type='text' id='street'/><br/>
+            <input type='text' id='city'/><br/>
+            <input type='text' id='postcode'/><br/>
+
           </div>
         );
       }
