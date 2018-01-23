@@ -105,7 +105,8 @@ button:hover {
   text-shadow: -1px 0 azure, 0 1px azure, 1px 0 azure, 0 -1px azure;
 }
 
-#buildingName, #apartmentNo, #agency, #landlord, #tenant, #leaseStart, #leaseEnd, #breakClause, #agencyPhoneNo, #noRooms, #rent, #notes, #address, #deposit, #leaseStartBox, #leaseEndBox, #breakClauseBox {
+#buildingName, #apartmentNo, #agency, #landlord, #tenant, #leaseStart, #leaseEnd, #breakClause, #agencyPhoneNo, #noRooms, #rent, #notes, #address, #deposit, #leaseStartBox, #leaseEndBox, #breakClauseBox,
+#street, #city, #postcode {
   background-color: grey;
   color: azure;
   border: 1px solid black;

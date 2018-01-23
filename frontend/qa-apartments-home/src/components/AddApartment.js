@@ -121,11 +121,9 @@ class AddApartment extends React.Component {
                 <input type='text' id='rent' onChange={this.onChange} placeholder='Rent: 00.00'/>*<br/>
                 <input type='text' id='notes' onChange={this.onChange} placeholder='Notes here...'/><br/>
                 <input type='text' id='address' onChange={this.onChange} placeholder='Address line 1'/>*<br/>
-                <input type='text' id='apartmentNum'onChange={this.onChangeAdd} placeholder='apartment number'/><br/>
-                <input type='text' id='building'onChange={this.onChangeAdd} placeholder='building name'/><br/>
-                <input type='text' id='street'onChange={this.onChangeAdd} placeholder='street'/><br/>
-                <input type='text' id='city'onChange={this.onChangeAdd} placeholder='city'/><br/>
-                <input type='text' id='postcode'onChange={this.onChangeAdd} placeholder='Address line 1'/><br/>
+                <input type='text' id='street'onChange={this.onChangeAdd} placeholder='Street'/><br/>
+                <input type='text' id='city'onChange={this.onChangeAdd} placeholder='City'/><br/>
+                <input type='text' id='postcode'onChange={this.onChangeAdd} placeholder='Postcode'/><br/>
                 <input type='text' id='deposit' onChange={this.onChange} placeholder='deposit'/>*<br/>
                 <button onClick={()=>this.addApartment()}> Submit </button>
 
