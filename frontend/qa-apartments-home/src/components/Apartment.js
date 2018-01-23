@@ -63,7 +63,6 @@ class Apartment extends React.Component {
     .catch(error=>{
       console.log("Request Failed: " + error.message);
     });
-    
 }
 
 getApartmentList = () => {
@@ -93,9 +92,7 @@ getApartmentList = () => {
 }
 
 getAllRooms = (idValue) => {
-
   let url = `${baseUrl}room/getRoom/`;
-  
   let fetchData = { 
     method: 'GET',
     mode: 'no-cors'
@@ -153,11 +150,6 @@ getRoomDetails = () => {
   .catch(error=>{
     console.log("Request Failed: " + error.message);
   });
-
-
-
-
-
 }
 
   render() {
