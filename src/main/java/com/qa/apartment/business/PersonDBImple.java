@@ -5,11 +5,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+
+import org.apache.log4j.Logger;
+
 import com.qa.apartment.persistance.Person;
 import com.qa.apartment.util.JSONUtil;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class PersonDBImple implements PersonService {
+	
+	private static final Logger LOGGER = Logger.getLogger(PersonDBImple.class);
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
@@ -38,8 +43,12 @@ public class PersonDBImple implements PersonService {
 		Person aPerson = util.getObjectForJSON(newDetails, Person.class);
 		Person currentPerson = findPerson(id);
 		if (currentPerson != null) {
+			LOGGER.info("Current person: " + util.getJSONForObject(currentPerson));
+			LOGGER.info("New person: " + util.getJSONForObject(currentPerson));
+			aPerson.setPersonID(currentPerson.getPersonID());
 			currentPerson = aPerson;
-			em.merge(aPerson);
+			LOGGER.info("Merge data: " + util.getJSONForObject(currentPerson));
+			em.merge(currentPerson);
 			return "{\"message\": \"person sucessfully updated\"}";
 		}
 		return "{\"message\": \"person not updated\"}";
