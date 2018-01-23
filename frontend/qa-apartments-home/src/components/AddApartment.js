@@ -3,10 +3,13 @@ import React from 'react';
 import {baseUrl} from './helperFunctions';
 
 function create(apartmentObject){
-    const request = new Request(`${baseUrl}apartment/json/`, {
-        method: "POST",
-        headers : {
-            'contentType' : 'application/json'
+
+    let url = baseUrl + "apartment/json";
+
+    let fetchData = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
         body: apartmentObject
     };
