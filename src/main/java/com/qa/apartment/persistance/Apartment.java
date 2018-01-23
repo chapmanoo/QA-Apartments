@@ -16,7 +16,7 @@ public class Apartment {
 	@NotNull
 	private String buildingName;
 
-	@Column(length = 5, name = "apartment_number")
+	@Column(length = 5)
 	@NotNull
 	private String apartmentNo;
 
