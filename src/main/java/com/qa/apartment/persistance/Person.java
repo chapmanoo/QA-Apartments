@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -17,16 +20,22 @@ public class Person {
 	private Long personID;
 
 	@Column(name = "first_name", length = 15)
+	@NotNull(message = "Name cannot be null")
+	@Pattern(regexp = "^\\D*$")
 	private String firstName;
 
 	@Column(name = "last_name", length = 15)
+	@NotNull(message = "Name cannot be null")
+	@Pattern(regexp = "^\\D*$")
 	private String lastName;
 
 	@Column(length = 50)
-	@Email
+	@Email(message = "Should be a valid email")
 	private String email;
 
-	@Column(name = "phone_number", length = 11)
+	@Column(name = "phone_number")
+	@Size(min = 11, max = 11)
+	@Pattern(regexp = "^[0-9]*$")
 	private String phoneNumber;
 
 	public Person() {

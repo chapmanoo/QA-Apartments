@@ -2,6 +2,7 @@ package com.qa.apartment.persistance;
 
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import com.qa.apartment.persistance.Address;
 
@@ -54,6 +55,7 @@ public class Apartment {
 	private Integer noRooms;
 
 	@Column(length = 8)
+	@Digits(integer = 5, fraction = 2)
 	@NotNull
 	private Double rent;
 
@@ -65,6 +67,7 @@ public class Apartment {
 	private String address;
 
 	@Column(length = 9)
+	@Digits(integer = 6, fraction = 2)
 	@NotNull
 	private Double deposit;
 
