@@ -64,10 +64,18 @@ class AddApartment extends React.Component {
         stateToSend.leaseStart = startLeaseDate;
         stateToSend.leaseEnd = endLeaseDate;
         stateToSend.breakClause = breakClauseDate;
+        stateToSend.noRooms = Number(stateToSend.noRooms);
+        stateToSend.deposit = (Number(stateToSend.deposit));
+        stateToSend.rent = (Number(stateToSend.rent));
 
+<<<<<<< HEAD
         console.log(stateToSend.leaseStart);
         create(JSON.stringify(stateToSend));
         console.log(stateToSend);
+=======
+        console.log(JSON.stringify(stateToSend));
+        create(JSON.stringify(stateToSend))
+>>>>>>> 6e122d3132c390bd0eea0a858f80daf3bc6a059f
     }
 
     handleChange1 =(date)=> {
