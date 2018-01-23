@@ -41,10 +41,14 @@ class AddApartment extends React.Component {
         let startLeaseDate = stateToSend.leaseStart;
         let endLeaseDate = stateToSend.leaseEnd;
         let breakClauseDate = stateToSend.breakClause;
-        startLeaseDate = startLeaseDate._d.getFullYear() + "-" + Number((startLeaseDate._d.getMonth())+1).toString() + "-" + startLeaseDate._d.getDate();
-        endLeaseDate = endLeaseDate._d.getFullYear() + "-" + Number((endLeaseDate._d.getMonth())+1).toString() + "-" + endLeaseDate._d.getDate();
-        breakClauseDate = breakClauseDate._d.getFullYear() + "-" + Number((breakClauseDate._d.getMonth())+1).toString() + "-" + breakClauseDate._d.getDate();
-        console.log(startLeaseDate, endLeaseDate, breakClauseDate);
+        startLeaseDate = startLeaseDate._d.getFullYear() + "-" + Number((startLeaseDate._d.getMonth()) + 1).toString() + "-" + startLeaseDate._d.getDate();
+        endLeaseDate = endLeaseDate._d.getFullYear() + "-" + Number((endLeaseDate._d.getMonth()) +1).toString() + "-" + endLeaseDate._d.getDate();
+        breakClauseDate = breakClauseDate._d.getFullYear() + "-" + Number((breakClauseDate._d.getMonth()) +1).toString() + "-" + breakClauseDate._d.getDate();
+        stateToSend.leaseStart = startLeaseDate;
+        stateToSend.leaseEnd = endLeaseDate;
+        stateToSend.breakClause = breakClauseDate;
+
+        console.log(stateToSend.leaseStart);
         create(JSON.stringify(stateToSend))
     }
 
@@ -73,7 +77,7 @@ class AddApartment extends React.Component {
         return (
           <div className='pageheader'>
             <h2>Lets get adding son</h2>
-            <form id='form'>
+            
                 <i>* indicates required fields</i><br/>
                 <input type='text' id='buildingName' onChange={this.onChange} placeholder='Building name'/>*<br/>
                 <input type='text' id='apartmentNo' onChange={this.onChange} placeholder='Apartment number'/>*<br/>
@@ -95,7 +99,7 @@ class AddApartment extends React.Component {
                 */}
                 <input type='text' id='deposit' onChange={this.onChange} placeholder='deposit'/>*<br/>
                 <button onClick={()=>this.addApartment()}> Submit </button>
-            </form>
+            
           </div>
         );
       }
