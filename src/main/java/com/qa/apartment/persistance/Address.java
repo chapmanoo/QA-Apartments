@@ -5,22 +5,26 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Address {
-	
-	@Column
-	String apartmentNum;
-	@Column
-	String building;
-	@Column
-	String street;
-	@Column
-	String city;
-	@Column
-	String postCode;
-	
-	public Address(){
-		
+
+	@Column(name = "apartment_number")
+	private String apartmentNum;
+
+	@Column(length = 15)
+	private String building;
+
+	@Column(length = 20)
+	private String street;
+
+	@Column(length = 20)
+	private String city;
+
+	@Column(length = 9)
+	private String postCode;
+
+	public Address() {
+
 	}
-	
+
 	public Address(String apartmentNum, String building, String street, String city, String postCode) {
 		super();
 		this.apartmentNum = apartmentNum;
@@ -69,7 +73,5 @@ public class Address {
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
 	}
-	
-	
-	
+
 }
