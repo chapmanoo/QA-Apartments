@@ -30,6 +30,21 @@ class AddApartment extends React.Component {
       }
     }
 
+    getFullDate = (dateRequired) => {
+      var year = dateRequired._d.getFullYear().toString()
+      var month = Number((dateRequired._d.getMonth()) + 1).toString()
+      var day = dateRequired._d.getDate().toString()
+      if(month < 10)
+      {
+        month = 0 + month;
+      }
+      if(day < 10)
+      {
+        day = 0 + day;
+      }
+      return year + "-" + month + "-" + day;
+    }
+
     onChange=e=>{
         // console.log(e.target.value)
         this.setState({apartment:{...this.state.apartment,[e.target.id]: e.target.value}})
@@ -41,21 +56,14 @@ class AddApartment extends React.Component {
         let startLeaseDate = stateToSend.leaseStart;
         let endLeaseDate = stateToSend.leaseEnd;
         let breakClauseDate = stateToSend.breakClause;
-<<<<<<< HEAD
-        startLeaseDate = startLeaseDate._d.getFullYear() + "-" + Number((startLeaseDate._d.getMonth()) + 1).toString() + "-" + startLeaseDate._d.getDate();
-        endLeaseDate = endLeaseDate._d.getFullYear() + "-" + Number((endLeaseDate._d.getMonth()) +1).toString() + "-" + endLeaseDate._d.getDate();
-        breakClauseDate = breakClauseDate._d.getFullYear() + "-" + Number((breakClauseDate._d.getMonth()) +1).toString() + "-" + breakClauseDate._d.getDate();
+        startLeaseDate = this.getFullDate(startLeaseDate);
+        endLeaseDate = this.getFullDate(endLeaseDate);
+        breakClauseDate = this.getFullDate(breakClauseDate);
         stateToSend.leaseStart = startLeaseDate;
         stateToSend.leaseEnd = endLeaseDate;
         stateToSend.breakClause = breakClauseDate;
 
         console.log(stateToSend.leaseStart);
-=======
-        stateToSend.leaseStart = startLeaseDate._d.getFullYear() + "-" + Number((startLeaseDate._d.getMonth())+1).toString() + "-" + startLeaseDate._d.getDate();
-        stateToSend.leaseEnd = endLeaseDate._d.getFullYear() + "-" + Number((endLeaseDate._d.getMonth())+1).toString() + "-" + endLeaseDate._d.getDate();
-        stateToSend.breakClause = breakClauseDate._d.getFullYear() + "-" + Number((breakClauseDate._d.getMonth())+1).toString() + "-" + breakClauseDate._d.getDate();
-        console.log(stateToSend.leaseEnd);
->>>>>>> e3fa0f717ad4936aa7bfb86b9131ed546eaf55c4
         create(JSON.stringify(stateToSend))
     }
 
@@ -64,6 +72,8 @@ class AddApartment extends React.Component {
         this.setState({
           apartment:{...this.state.apartment, leaseStart: date}
         });
+
+        console.log(date._d.toDateString());
        
       }
 
