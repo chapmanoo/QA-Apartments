@@ -21,10 +21,12 @@ class AddApartment extends React.Component {
         constructor(){
       super();
       this.state={
-        apartment:{},
-        startDate: moment(),
-        endDate: moment(),
-        breakClause: moment()
+        apartment:{
+          leaseStart: moment(),
+          leaseEnd: moment(),
+          breakClause: moment()
+        }
+       
       }
     }
 
@@ -36,24 +38,33 @@ class AddApartment extends React.Component {
 
     addApartment=()=>{
         const stateToSend = {...this.state.apartment}
+        let startLeaseDate = stateToSend.leaseStart;
+        let endLeaseDate = stateToSend.leaseEnd;
+        let breakClauseDate = stateToSend.breakClause;
+        startLeaseDate = startLeaseDate._d.getFullYear() + "-" + Number((startLeaseDate._d.getMonth())+1).toString() + "-" + startLeaseDate._d.getDate();
+        endLeaseDate = endLeaseDate._d.getFullYear() + "-" + Number((endLeaseDate._d.getMonth())+1).toString() + "-" + endLeaseDate._d.getDate();
+        breakClauseDate = breakClauseDate._d.getFullYear() + "-" + Number((breakClauseDate._d.getMonth())+1).toString() + "-" + breakClauseDate._d.getDate();
+        console.log(startLeaseDate, endLeaseDate, breakClauseDate);
         create(JSON.stringify(stateToSend))
     }
 
     handleChange1 =(date)=> {
+     
         this.setState({
-          startDate: date,
+          apartment:{...this.state.apartment, leaseStart: date}
         });
+       
       }
 
       handleChange2 =(date)=> {
         this.setState({
-          endDate: date
+          apartment:{...this.state.apartment, leaseEnd: date}
         });
       }
 
       handleChange3 =(date)=> {
         this.setState({
-          breakClause: date
+          apartment:{...this.state.apartment, breakClause: date}
         });
       }
     
@@ -69,10 +80,9 @@ class AddApartment extends React.Component {
                 <input type='text' id='agency' onChange={this.onChange} placeholder='Agency'/>*<br/>
                 <input type='text' id='landlord' onChange={this.onChange} placeholder='Landlord'/><br/>
                 <input type='text' id='tenant' onChange={this.onChange} placeholder='Tenant'/>*<br/>
-                <DatePicker id='leaseStart' selected={this.state.startDate}onChange={this.handleChange1}/>
-                <DatePicker id='leaseEnd' selected={this.state.endDate}onChange={this.handleChange2}/>
-                <DatePicker id='breakClause' selected={this.state.breakClause}onChange={this.handleChange3}/>
-                {/*Change LeaseStart, End and Clause to use dates*/}
+                <DatePicker id='leaseStart' selected={this.state.apartment.leaseStart}onChange={this.handleChange1}/>
+                <DatePicker id='leaseEnd' selected={this.state.apartment.leaseEnd}onChange={this.handleChange2}/>
+                <DatePicker id='breakClause' selected={this.state.apartment.breakClause}onChange={this.handleChange3}/>
                 <input type='text' id='agencyPhoneNo' onChange={this.onChange} placeholder='Agency Telephone Number'/>*<br/>
                 <input type='text' id='noRooms' onChange={this.onChange} placeholder='Number of rooms'/><br/>
                 <input type='text' id='rent' onChange={this.onChange} placeholder='Rent: 00.00'/>*<br/>
