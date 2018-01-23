@@ -14,12 +14,14 @@ class Apartment extends React.Component {
     this.state = {
       stateText:[],
       roomText:[],
-      roomSchedule:[]
+      roomSchedule:[],
+      leaseStart:null,
+      leaseEnd:null,
+      breakClause:null
     };
   }
 
   componentDidMount=()=>{
-    console.log('mounting')
     this.getApartmentList();
   }
 
@@ -28,10 +30,6 @@ class Apartment extends React.Component {
     let selectedValue = selectBox.options[selectBox.selectedIndex].value;
     let id;
     const url = `${baseUrl}apartment/json/`;
-
-    let leaseStartBox = document.getElementById("leaseStartBox");
-    let leaseEndBox = document.getElementById("leaseEndBox");
-    let breakClauseBox = document.getElementById("breakClauseBox");
 
     let fetchData = { 
       method: 'GET',
@@ -50,9 +48,11 @@ class Apartment extends React.Component {
     .then(response=>{
       //Do stuff with the JSON
       //alert(JSON.stringify(response));
-      leaseStartBox.value = response.leaseStart;
-      leaseEndBox.value = response.leaseEnd;
-      breakClauseBox.value = response.breakClause;
+      this.setState({
+                    leaseStart:response.leaseStart,
+                    leaseEnd:response.leaseEnd,
+                    breakClause:response.breakClause
+                  })
       id = response.id;
       //  console.log('getting room details for selected Value: '+selectedValue)
     
@@ -190,11 +190,11 @@ getRoomDetails = () => {
         <div>
             <p>Misc Section</p>
             <label for="leaseStartBox">Lease Start</label>
-            <input type="text" name="lease_start" id="leaseStartBox" placeholder="Lease Start"/>
+            <input type="text" id="leaseStartBox" value={this.leaseStart ? this.leaseStart: 'Lease Start'}/>
             <label for="leaseEndBox">Lease End</label>
-            <input type="text" name="lease_end" id="leaseEndBox" placeholder="Lease End"/>
+            <input type="text" id="leaseEndBox" value={this.leaseEnd ? this.leaseEnd: 'Lease End'}/>
             <label for="breakClauseBox">Break Clause</label>
-            <input type="text" name="break_clause" id="breakClauseBox" placeholder="Break Clause"/>
+            <input type="text"  id="breakClauseBox" value={this.breakClause ? this.breakClause: 'Break Clause'}/>
         </div>
       </div>
     );

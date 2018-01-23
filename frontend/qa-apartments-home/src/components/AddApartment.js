@@ -81,7 +81,7 @@ class AddApartment extends React.Component {
         stateToSend.breakClause = breakClauseDate;
         stateToSend.noRooms = Number(stateToSend.noRooms);
         stateToSend.deposit = (Number(stateToSend.deposit));
-        stateToSend.rent = (Number(stateToSend.rent));
+        stateToSend.rent = Number(stateToSend.rent);
         create(JSON.stringify(stateToSend));
     }
 
