@@ -5,11 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Person {
@@ -20,13 +20,13 @@ public class Person {
 	private Long personID;
 
 	@Column(name = "first_name", length = 15)
-	@NotNull(message = "Name cannot be null")
-	@Pattern(regexp = "^\\D*$")
+	@NotEmpty(message = "Name cannot be null")
+	@Pattern(regexp = "^[A-zÀ-ÿ]*$", message = "First name cannot contain a number")
 	private String firstName;
 
 	@Column(name = "last_name", length = 15)
-	@NotNull(message = "Name cannot be null")
-	@Pattern(regexp = "^\\D*$")
+	@NotEmpty(message = "Name cannot be null")
+	@Pattern(regexp = "^[A-zÀ-ÿ]*$", message = "Last name cannot contain a number")
 	private String lastName;
 
 	@Column(length = 50)
@@ -35,7 +35,7 @@ public class Person {
 
 	@Column(name = "phone_number")
 	@Size(min = 11, max = 11)
-	@Pattern(regexp = "^[0-9]*$")
+	@Pattern(regexp = "^[0-9]*$", message = "phone number must contain numbers only")
 	private String phoneNumber;
 
 	public Person() {
@@ -86,8 +86,12 @@ public class Person {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public long getPersonID() {
+	public Long getPersonID() {
 		return personID;
+	}
+
+	public void setPersonID(Long personID) {
+		this.personID = personID;
 	}
 
 }

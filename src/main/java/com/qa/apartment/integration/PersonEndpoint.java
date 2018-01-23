@@ -46,7 +46,6 @@ public class PersonEndpoint {
 
 	@PUT
 	@Path("/json/{id}")
-	@Consumes("application/json")
 	public String updatePerson(@PathParam("id") Long id, String newDetails) {
 		return service.updatePersonFromString(id, newDetails);
 	}
