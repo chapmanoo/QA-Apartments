@@ -12,11 +12,11 @@ public class Apartment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(length = 30)
+	@Column(length = 30, name = "building_name")
 	@NotNull
 	private String buildingName;
 
-	@Column(length = 5)
+	@Column(length = 5, name = "apartment_number")
 	@NotNull
 	private String apartmentNo;
 
@@ -31,50 +31,50 @@ public class Apartment {
 	@NotNull
 	private String tenant;
 
-	@Column(length = 10)
+	@Column(length = 10, name = "lease_start")
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date leaseStart;
 
-	@Column(length = 10)
+	@Column(length = 10, name = "lease_end")
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date leaseEnd;
 
-	@Column(length = 10)
+	@Column(length = 10, name = "break_clause")
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date breakClause;
 
-	@Column (length = 11)
+	@Column(length = 11, name = "agency_phone_number")
 	@NotNull
 	private String agencyPhoneNo;
 
-	@Column(length = 1)
+	@Column(length = 1, name = "number_of_rooms")
 	private Integer noRooms;
 
 	@Column(length = 8)
 	@NotNull
 	private Double rent;
 
-	@Column (length = 300)
+	@Column(length = 300)
 	private String notes;
 
-	@Column (length = 175)
+	@Column(length = 175)
 	@NotNull
 	private String address;
 
-	@Column (length = 9)
+	@Column(length = 9)
 	@NotNull
 	private Double deposit;
-	
+
 	@Embedded
 	private Address addressField;
 
 	public Apartment() {
 
 	}
-	
+
 	public Apartment(String buildingName, String apartmentNo, String agency, String landlord, String tenant,
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
 			String notes, String address, Double deposit, Address addressObj) {
@@ -94,11 +94,12 @@ public class Apartment {
 		this.deposit = deposit;
 		this.addressField = addressObj;
 	}
-	
+
 	public Apartment(Long id, String buildingName, String apartmentNo, String agency, String landlord, String tenant,
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
 			String notes, String address, Double deposit, Address addressObj) {
-		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo, noRooms, rent, notes, address, deposit, addressObj);
+		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo,
+				noRooms, rent, notes, address, deposit, addressObj);
 		this.id = id;
 	}
 
@@ -229,7 +230,5 @@ public class Apartment {
 	public void setAddressField(Address addressField) {
 		this.addressField = addressField;
 	}
-	
-	
 
 }
