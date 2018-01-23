@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-const baseURL = "http://localhost:8080/qa-apartments3/Rest/apartment/json"
+const baseURL = "http://localhost:8080/qa-apartments3/rest/apartment/json/"
 
 function create(apartmentObject){
     const request = new Request(baseURL, {
@@ -41,10 +41,10 @@ class AddApartment extends React.Component {
         let startLeaseDate = stateToSend.leaseStart;
         let endLeaseDate = stateToSend.leaseEnd;
         let breakClauseDate = stateToSend.breakClause;
-        startLeaseDate = startLeaseDate._d.getFullYear() + "-" + Number((startLeaseDate._d.getMonth())+1).toString() + "-" + startLeaseDate._d.getDate();
-        endLeaseDate = endLeaseDate._d.getFullYear() + "-" + Number((endLeaseDate._d.getMonth())+1).toString() + "-" + endLeaseDate._d.getDate();
-        breakClauseDate = breakClauseDate._d.getFullYear() + "-" + Number((breakClauseDate._d.getMonth())+1).toString() + "-" + breakClauseDate._d.getDate();
-        console.log(startLeaseDate, endLeaseDate, breakClauseDate);
+        stateToSend.leaseStart = startLeaseDate._d.getFullYear() + "-" + Number((startLeaseDate._d.getMonth())+1).toString() + "-" + startLeaseDate._d.getDate();
+        stateToSend.leaseEnd = endLeaseDate._d.getFullYear() + "-" + Number((endLeaseDate._d.getMonth())+1).toString() + "-" + endLeaseDate._d.getDate();
+        stateToSend.breakClause = breakClauseDate._d.getFullYear() + "-" + Number((breakClauseDate._d.getMonth())+1).toString() + "-" + breakClauseDate._d.getDate();
+        console.log(stateToSend.leaseEnd);
         create(JSON.stringify(stateToSend))
     }
 
