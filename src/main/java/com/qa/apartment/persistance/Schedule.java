@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.persistence.ForeignKey;
 
@@ -29,6 +30,7 @@ public class Schedule {
 	@Temporal(TemporalType.DATE)
 	@Column (length = 10)
 	@NotNull
+	@Future(message = "To date must be in the future")
 	private Date to_date;
 
 	// Table joins for many to many relationships
