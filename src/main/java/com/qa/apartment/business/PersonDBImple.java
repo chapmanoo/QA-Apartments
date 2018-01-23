@@ -20,8 +20,11 @@ public class PersonDBImple implements PersonService {
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createPersonFromString(String person) {
 		Person aPerson = util.getObjectForJSON(person, Person.class);
-		em.persist(aPerson);
-		return "{\"message\": \"person sucessfully added\"}";
+		if (aPerson != null) {
+			em.persist(aPerson);
+			return "{\"message\": \"person sucessfully added\"}";
+		}
+		return "{\"message\": \"person wasn't added\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)

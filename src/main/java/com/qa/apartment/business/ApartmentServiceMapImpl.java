@@ -14,7 +14,7 @@ public class ApartmentServiceMapImpl implements ApartmentService {
 	private Long ID;
 
 	@Inject
-	JSONUtil util;
+	private JSONUtil util;
 
 	public ApartmentServiceMapImpl() {
 		this.apartmentMap = new HashMap<Long, Apartment>();

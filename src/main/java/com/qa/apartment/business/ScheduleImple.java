@@ -19,7 +19,6 @@ public class ScheduleImple implements ScheduleService {
 
 	private Map<Long, Schedule> scheduleList;
 
-	private Long ID;
 	private static Long INITIAL_COUNT = 0L;
 
 	@Inject
