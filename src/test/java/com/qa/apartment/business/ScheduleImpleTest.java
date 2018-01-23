@@ -31,7 +31,7 @@ public class ScheduleImpleTest {
 	private Date dateTo;
 	
 	@InjectMocks
-	ScheduleImple impl;
+	private ScheduleImple impl;
 
 	@Mock
 	private JSONUtil util;

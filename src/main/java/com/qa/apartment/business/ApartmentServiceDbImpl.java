@@ -39,8 +39,9 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 		Apartment apartment = findApartment(new Long(id));
 		if (apartment != null) {
 			em.remove(apartment);
+			return "{\"message\": \"Apartment sucessfully removed\"}";
 		}
-		return "{\"message\": \"Apartment sucessfully removed\"}";
+		return "{\"message\": \"Apartment wasn't removed\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)

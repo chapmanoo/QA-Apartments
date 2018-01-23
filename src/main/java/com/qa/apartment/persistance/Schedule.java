@@ -68,19 +68,19 @@ public class Schedule {
 		this.id = id;
 	}
 
-	public Date getFrom_date() {
+	public Date getFromDate() {
 		return from_date;
 	}
 
-	public void setFrom_date(Date from_date) {
+	public void setFromDate(Date from_date) {
 		this.from_date = from_date;
 	}
 
-	public Date getTo_date() {
+	public Date getToDate() {
 		return to_date;
 	}
 
-	public void setTo_date(Date to_date) {
+	public void setToDate(Date to_date) {
 		this.to_date = to_date;
 	}
 
