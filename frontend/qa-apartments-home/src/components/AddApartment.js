@@ -22,6 +22,9 @@ class AddApartment extends React.Component {
       super();
       this.state={
         apartment:{
+
+        },
+        apartment:{
           leaseStart: moment(),
           leaseEnd: moment(),
           breakClause: moment()
@@ -46,7 +49,6 @@ class AddApartment extends React.Component {
     }
 
     onChange=e=>{
-        // console.log(e.target.value)
         this.setState({apartment:{...this.state.apartment,[e.target.id]: e.target.value}})
         console.log(this.state)
     }
@@ -64,7 +66,8 @@ class AddApartment extends React.Component {
         stateToSend.breakClause = breakClauseDate;
 
         console.log(stateToSend.leaseStart);
-        create(JSON.stringify(stateToSend))
+        create(JSON.stringify(stateToSend));
+        console.log(stateToSend);
     }
 
     handleChange1 =(date)=> {
