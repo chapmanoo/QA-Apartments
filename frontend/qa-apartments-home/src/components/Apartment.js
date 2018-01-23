@@ -4,6 +4,8 @@ import ApartmentList from './ApartmentComps/ApartmentList';
 import RoomList from './ApartmentComps/RoomList';
 import RoomSchedule from './ApartmentComps/RoomSchedule';
 
+import {baseUrl} from './helperFunctions';
+
 class Apartment extends React.Component {
 
       constructor() {
@@ -22,24 +24,21 @@ class Apartment extends React.Component {
   }
 
   getApartment = () => {
-
     let selectBox = document.getElementById("apartmentSelect");
     let selectedValue = selectBox.options[selectBox.selectedIndex].value;
     let id;
-    let url = "http://localhost:8080/qa-apartments3/Rest/apartment/json/";
+    const url = `${baseUrl}apartment/json/`;
 
     let leaseStartBox = document.getElementById("leaseStartBox");
     let leaseEndBox = document.getElementById("leaseEndBox");
     let breakClauseBox = document.getElementById("breakClauseBox");
-
-    url = url + selectedValue;
 
     let fetchData = { 
       method: 'GET',
       mode: 'no-cors'
     };
    
-    fetch(url,fetchData)
+    fetch(url+selectedValue,fetchData)
     .then(response=>{
         //If a 2xx response is received return the response as JSON
         if(response.ok){  
@@ -68,8 +67,7 @@ class Apartment extends React.Component {
 }
 
 getApartmentList = () => {
-
-  let url = 'http://localhost:8080/qa-apartments3/Rest/apartment/json/';
+  let url = `${baseUrl}apartment/json/`;
   let fetchData = { 
     method: 'GET',
     mode: 'no-cors'
@@ -96,7 +94,7 @@ getApartmentList = () => {
 
 getAllRooms = (idValue) => {
 
-  let url = "http://localhost:8080/qa-apartments3/Rest/room/getRoom/";
+  let url = `${baseUrl}room/getRoom/`;
   
   let fetchData = { 
     method: 'GET',
@@ -125,7 +123,7 @@ getAllRooms = (idValue) => {
 getRoomDetails = () => {
   let selectBox = document.getElementById("roomSelect");
   let selectedValue = selectBox.options[selectBox.selectedIndex].value;
-  let url = 'http://localhost:8080/qa-apartments3/Rest/schedule/json';
+  let url = `${baseUrl}schedule/json/`;
 
   let fetchData = { 
     method: 'GET',
@@ -169,7 +167,6 @@ getRoomDetails = () => {
          <ApartmentList list={this.state.stateText}/>
             <br/>
             <button id="getApartment"onClick={()=>this.getApartment()}>Get Apartment</button><br/>
-            <button id="getAllApartments" onClick={()=>this.getApartmentList()}>Refresh List</button>
         </div>
         <br/> <br/> 
         <hr/>

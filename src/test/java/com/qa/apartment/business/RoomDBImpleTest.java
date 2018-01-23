@@ -39,8 +39,8 @@ public class RoomDBImpleTest {
 		testJsonStringA = "{\"roomId\": \"0\",\"apartment\": \"aApartment\"}";
 		testJsonStringB = "{\"roomId\": \"1\",\"apartment\": \"bApartment\"}";
 
-		aRoom = new Room(0, aApartment);
-		bRoom = new Room(1, bApartment);
+		aRoom = new Room(0L, aApartment);
+		bRoom = new Room(1L, bApartment);
 
 	}
 

@@ -10,33 +10,36 @@ import org.hibernate.validator.constraints.Email;
 
 @Entity
 public class Person {
-	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO) @Column(name = "id")
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private Long personID;
-	
-	@Column(name="first_name")
+
+	@Column(name = "first_name", length = 15)
 	private String firstName;
-	
-	@Column(name= "last_name")
+
+	@Column(name = "last_name", length = 15)
 	private String lastName;
-	
-	@Email 
+
+	@Column(length = 50)
+	@Email
 	private String email;
-	
-	@Column(name="phone_number", length=11)
+
+	@Column(name = "phone_number", length = 11)
 	private String phoneNumber;
-	
+
 	public Person() {
-		
+
 	}
-	
+
 	public Person(String firstName, String lastName, String email, String phoneNumber) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 	}
-	
+
 	public Person(Long personID, String firstName, String lastName, String email, String phoneNumber) {
 		this(firstName, lastName, email, phoneNumber);
 		this.personID = personID;

@@ -1,30 +1,28 @@
 package com.qa.apartment.business;
-//
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+
+import java.util.HashMap;
+import java.util.Map;
 import javax.inject.Inject;
 import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
 
+public class ApartmentServiceMapImpl implements ApartmentService {
 
-public class ApartmentServiceMapImpl implements ApartmentService{
-	
-	private final int INITIAL_COUNT = 1;
-	private Map<Integer, Apartment> apartmentMap;
-	private int ID;
-	
+	private final Long INITIAL_COUNT = 1L;
+	private Map<Long, Apartment> apartmentMap;
+	private Long ID;
+
 	@Inject
-	JSONUtil util;
-	
+	private JSONUtil util;
+
 	public ApartmentServiceMapImpl() {
-		this.apartmentMap = new HashMap<Integer, Apartment>();
+		this.apartmentMap = new HashMap<Long, Apartment>();
 		ID = INITIAL_COUNT;
 	}
 
 	@Override
-	public Apartment findApartment(long id) {
+	public Apartment findApartment(Long id) {
 		return apartmentMap.get(id);
 
 	}
@@ -38,22 +36,21 @@ public class ApartmentServiceMapImpl implements ApartmentService{
 	public String createApartment(String apartment) {
 		Apartment newApartment = util.getObjectForJSON(apartment, Apartment.class);
 		apartmentMap.put(ID, newApartment);
-		return "new apartment added";//newApartment.getAddress();
+		return "new apartment added";// newApartment.getAddress();
 	}
 
 	@Override
-	public String deleteApartment(long id) {
+	public String deleteApartment(Long id) {
 		apartmentMap.remove(id);
 		return null;
 	}
 
 	@Override
-	public String updateApartment(long id, String newApartmentInfo) {
+	public String updateApartment(Long id, String newApartmentInfo) {
 		Apartment newApartment = util.getObjectForJSON(newApartmentInfo, Apartment.class);
-		int originalApartmentID = (int) id;
+		Long originalApartmentID = id;
 		apartmentMap.put(originalApartmentID, newApartment);
-		return "map updated";//apartmentMap.get(originalApartmentID).getAddress();
+		return "map updated";// apartmentMap.get(originalApartmentID).getAddress();
 	}
-	
 
 }

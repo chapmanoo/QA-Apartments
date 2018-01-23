@@ -18,7 +18,7 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	@Inject
 	private JSONUtil util;
 
-	public Apartment findApartment(long id) {
+	public Apartment findApartment(Long id) {
 		return em.find(Apartment.class, id);
 	}
 
@@ -35,16 +35,17 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
-	public String deleteApartment(long id) {
+	public String deleteApartment(Long id) {
 		Apartment apartment = findApartment(new Long(id));
 		if (apartment != null) {
 			em.remove(apartment);
+			return "{\"message\": \"Apartment sucessfully removed\"}";
 		}
-		return "{\"message\": \"Apartment sucessfully removed\"}";
+		return "{\"message\": \"Apartment wasn't removed\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
-	public String updateApartment(long id, String newApartment) {
+	public String updateApartment(Long id, String newApartment) {
 		Apartment apartment = util.getObjectForJSON(newApartment, Apartment.class);
 		Apartment selectedApartment = findApartment(id);
 		if (selectedApartment != null) {

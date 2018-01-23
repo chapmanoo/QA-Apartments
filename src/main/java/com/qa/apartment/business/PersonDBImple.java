@@ -1,7 +1,5 @@
 package com.qa.apartment.business;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,19 +9,22 @@ import com.qa.apartment.persistance.Person;
 import com.qa.apartment.util.JSONUtil;
 
 @Transactional(Transactional.TxType.SUPPORTS)
-public class PersonDBImple implements PersonService{
+public class PersonDBImple implements PersonService {
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
-	
+
 	@Inject
 	private JSONUtil util;
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createPersonFromString(String person) {
 		Person aPerson = util.getObjectForJSON(person, Person.class);
-		em.persist(aPerson);
-		return "{\"message\": \"person sucessfully added\"}";
+		if (aPerson != null) {
+			em.persist(aPerson);
+			return "{\"message\": \"person sucessfully added\"}";
+		}
+		return "{\"message\": \"person wasn't added\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
@@ -45,7 +46,7 @@ public class PersonDBImple implements PersonService{
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
-	public String updatePersonFromPerson(Long id,Person newDetails) {
+	public String updatePersonFromPerson(Long id, Person newDetails) {
 		em.merge(newDetails);
 		return "{\"message\": \"person sucessfully updated\"}";
 	}
@@ -64,7 +65,7 @@ public class PersonDBImple implements PersonService{
 	public Person findPerson(Long id) {
 		return em.find(Person.class, id);
 	}
-	
+
 	public JSONUtil getUtil() {
 		return util;
 	}

@@ -1,75 +1,106 @@
 package com.qa.apartment.persistance;
-//
-import java.util.Date;
 
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import com.qa.apartment.persistance.Address;
 
 @Entity
 public class Apartment {
-	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column
-	@NotNull	
+
+	@Column(length = 30, name = "building_name")
+	@NotNull
 	private String buildingName;
-	
-	@Column (length=5)
+
+	@Column(length = 5, name = "apartment_number")
 	@NotNull
 	private String apartmentNo;
-	
-	@Column
+
+	@Column(length = 25)
 	@NotNull
 	private String agency;
-	
-	@Column
+
+	@Column(length = 30)
 	private String landlord;
-	
-	@Column
+
+	@Column(length = 30)
 	@NotNull
 	private String tenant;
-	
-	@Column
+
+	@Column(length = 10, name = "lease_start")
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date leaseStart;
-	
-	@Column
+
+	@Column(length = 10, name = "lease_end")
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date leaseEnd;
-	
-	@Column (length=10)
+
+	@Column(length = 10, name = "break_clause")
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date breakClause;
-	
-	@Column
+
+	@Column(length = 11, name = "agency_phone_number")
 	@NotNull
 	private String agencyPhoneNo;
-	
-	@Column (length=1)
+
+	@Column(length = 1, name = "number_of_rooms")
 	private Integer noRooms;
-	
-	@Column
+
+	@Column(length = 8)
 	@NotNull
 	private Double rent;
-	
-	@Column
+
+	@Column(length = 300)
 	private String notes;
-	
-	@Column
+
+	@Column(length = 175)
 	@NotNull
 	private String address;
-	
-	@Column
+
+	@Column(length = 9)
 	@NotNull
 	private Double deposit;
-	
-	
+
+	@Embedded
+	private Address addressField;
+
 	public Apartment() {
-		
+
+	}
+
+	public Apartment(String buildingName, String apartmentNo, String agency, String landlord, String tenant,
+			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
+			String notes, String address, Double deposit, Address addressObj) {
+		this.buildingName = buildingName;
+		this.apartmentNo = apartmentNo;
+		this.agency = agency;
+		this.landlord = landlord;
+		this.tenant = tenant;
+		this.leaseStart = leaseStart;
+		this.leaseEnd = leaseEnd;
+		this.breakClause = breakClause;
+		this.agencyPhoneNo = agencyPhoneNo;
+		this.noRooms = noRooms;
+		this.rent = rent;
+		this.notes = notes;
+		this.address = address;
+		this.deposit = deposit;
+		this.addressField = addressObj;
+	}
+
+	public Apartment(Long id, String buildingName, String apartmentNo, String agency, String landlord, String tenant,
+			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
+			String notes, String address, Double deposit, Address addressObj) {
+		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo,
+				noRooms, rent, notes, address, deposit, addressObj);
+		this.id = id;
 	}
 
 	public Long getId() {
@@ -80,7 +111,6 @@ public class Apartment {
 		this.id = id;
 	}
 
-	
 	public String getBuildingName() {
 		return buildingName;
 	}
@@ -120,7 +150,7 @@ public class Apartment {
 	public void setTenant(String tenant) {
 		this.tenant = tenant;
 	}
-	
+
 	public Date getLeaseStart() {
 		return leaseStart;
 	}
@@ -128,7 +158,7 @@ public class Apartment {
 	public void setLeaseStart(Date leaseStart) {
 		this.leaseStart = leaseStart;
 	}
-	
+
 	public Date getLeaseEnd() {
 		return leaseEnd;
 	}
@@ -152,7 +182,7 @@ public class Apartment {
 	public void setAgencyPhoneNo(String agencyPhoneNo) {
 		this.agencyPhoneNo = agencyPhoneNo;
 	}
-	
+
 	public Integer getNoRooms() {
 		return noRooms;
 	}
@@ -191,6 +221,14 @@ public class Apartment {
 
 	public void setDeposit(Double deposit) {
 		this.deposit = deposit;
+	}
+
+	public Address getAddressField() {
+		return addressField;
+	}
+
+	public void setAddressField(Address addressField) {
+		this.addressField = addressField;
 	}
 
 }

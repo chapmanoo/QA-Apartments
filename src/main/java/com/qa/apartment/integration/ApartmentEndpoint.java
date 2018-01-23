@@ -1,55 +1,53 @@
 package com.qa.apartment.integration;
 
 import javax.ws.rs.*;
-
 import org.apache.log4j.Logger;
-
 import com.qa.apartment.business.ApartmentServiceDbImpl;
-import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
-
-import java.util.List;
-
 import javax.inject.*;
+
 @Path("/apartment")
+@Produces("application/json")
 public class ApartmentEndpoint {
 	private static final Logger LOGGER = Logger.getLogger(ApartmentEndpoint.class);
-	
+
 	@Inject
-	JSONUtil jsonUtil; 
-	
+	private JSONUtil jsonUtil;
+
 	@Inject
-	ApartmentServiceDbImpl service;
-	
-	@Path("/json/{id}")
+	private ApartmentServiceDbImpl service;
+
 	@GET
-	public String getApartment(@PathParam("id") long id) {
+	@Path("/json/{id}")
+	public String getApartment(@PathParam("id") Long id) {
 		return jsonUtil.getJSONForObject(service.findApartment(id));
 	}
-	
-	@Path("/json")
+
 	@GET
+	@Path("/json")
 	public String getAllApartments() {
 		return service.findAllApartments();
 	}
 	
-	@Path("/json")
 	@POST
+	@Path("/json")
+	@Consumes("application/json")
 	public String createApartment(String newAp) {
-		LOGGER.info("in ApartmentEndpoint the value of string is  " + newAp );
+		LOGGER.info("in ApartmentEndpoint the value of string is  " + newAp);
 		return service.createApartment(newAp);
 	}
 	
-	@Path("/json/{id}")
 	@DELETE
-	public String deleteApartment(@PathParam("id") long id) {
+	@Path("/json/{id}")
+	public String deleteApartment(@PathParam("id") Long id) {
 		return service.deleteApartment(id);
 	}
-	
-	@Path("/json/{id}")
+
 	@PUT
-	public String updateApartment(String newAp,@PathParam("id") long id) {
+	@Path("/json/{id}")
+	@Consumes("application/json")
+	public String updateApartment(String newAp, @PathParam("id") Long id) {
 		return service.updateApartment(id, newAp);
 	}
-	
+
 }

@@ -1,11 +1,6 @@
 package com.qa.apartment.business;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import com.qa.apartment.persistance.Person;
 import com.qa.apartment.persistance.Room;
 import com.qa.apartment.persistance.Schedule;
@@ -37,7 +31,7 @@ public class ScheduleImpleTest {
 	private Date dateTo;
 	
 	@InjectMocks
-	ScheduleImple impl;
+	private ScheduleImple impl;
 
 	@Mock
 	private JSONUtil util;
@@ -53,14 +47,14 @@ public class ScheduleImpleTest {
 		aPerson = new Person("James", "Herbert", "test@test.com", "01234567891");
 		bPerson = new Person("Jenkins", "Harlot", "test2@test.com", "01234567891");
 		
-		aRoom = new Room(1);
+		aRoom = new Room(1L);
 		
 		dateFrom = new Date(2003, 12, 02);
 		dateTo = new Date(2005,03, 10);
 		
-		aSchedule = new Schedule(1, dateFrom, dateTo, aPerson, aRoom);
-		bSchedule = new Schedule(1, dateFrom, dateTo, bPerson, aRoom);
-		cSchedule = new Schedule(2, dateFrom, dateTo, bPerson, aRoom);
+		aSchedule = new Schedule(1L, dateFrom, dateTo, aPerson, aRoom);
+		bSchedule = new Schedule(1L, dateFrom, dateTo, bPerson, aRoom);
+		cSchedule = new Schedule(2L, dateFrom, dateTo, bPerson, aRoom);
 	}
 
 	@Test
