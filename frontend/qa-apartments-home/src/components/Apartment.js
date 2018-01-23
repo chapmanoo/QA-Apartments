@@ -190,11 +190,11 @@ getRoomDetails = () => {
         <div>
             <p>Misc Section</p>
             <label for="leaseStartBox">Lease Start</label>
-            <input type="text" id="leaseStartBox" value={this.leaseStart ? this.leaseStart: 'Lease Start'}/>
+            <input type="text" id="leaseStartBox" value={this.state.leaseStart ? this.state.leaseStart: 'Lease Start'}/>
             <label for="leaseEndBox">Lease End</label>
-            <input type="text" id="leaseEndBox" value={this.leaseEnd ? this.leaseEnd: 'Lease End'}/>
+            <input type="text" id="leaseEndBox" value={this.state.leaseEnd ? this.state.leaseEnd: 'Lease End'}/>
             <label for="breakClauseBox">Break Clause</label>
-            <input type="text"  id="breakClauseBox" value={this.breakClause ? this.breakClause: 'Break Clause'}/>
+            <input type="text"  id="breakClauseBox" value={this.state.breakClause ? this.state.breakClause: 'Break Clause'}/>
         </div>
       </div>
     );
