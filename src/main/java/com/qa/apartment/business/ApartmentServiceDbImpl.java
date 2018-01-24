@@ -1,4 +1,5 @@
 package com.qa.apartment.business;
+
 //
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -6,11 +7,15 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
+
 import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class ApartmentServiceDbImpl implements ApartmentService {
+
+	private static final Logger LOGGER = Logger.getLogger(ApartmentServiceDbImpl.class);
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
@@ -29,9 +34,15 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createApartment(String apartment) {
+
 		Apartment newApartment = util.getObjectForJSON(apartment, Apartment.class);
-		em.persist(newApartment);
-		return "{\"message\": \"Apartment sucessfully Added\"}";
+		if (newApartment != null) {
+			if (isValidApartmentDates(apartment)) {
+				em.persist(newApartment);
+				return "{\"message\": \"Apartment sucessfully Added\", \"id\" : " + newApartment.getId() + "}";
+			}
+		}
+		return "{\"message\": \"Apartment not added\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
@@ -54,5 +65,67 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 			return "{\"message\": \"Apartment sucessfully updated\"}";
 		}
 		return "{\"message\": \"Apartment failed to update\"}";
+	}
+
+	private Boolean isValidApartmentDates(String apartment) {
+		String[] apartmentArray = apartment.split(",");
+
+		// leaseStart 5, leaseEnd 6, breakClause 7
+		String[] leaseStart = apartmentArray[5].split("\"");
+		String[] leaseEnd = apartmentArray[6].split("\"");
+		String[] breakClause = apartmentArray[7].split("\"");
+
+		// date numbers 3
+		String[] dates = leaseStart[3].split("-");
+		String[] dates2 = leaseEnd[3].split("-");
+		String[] dates3 = breakClause[3].split("-");
+
+		Boolean toReturn = false;
+
+		if (checkLogic(dates) && checkLogic(dates2) && checkLogic(dates3))
+			toReturn = true;
+
+		return toReturn;
+	}
+
+	private Boolean checkLogic(String[] dates) {
+
+		LOGGER.info("Year: " + Integer.parseInt(dates[0]) + ". Month: " + Integer.parseInt(dates[1]) + ". Day: "
+				+ Integer.parseInt(dates[2]));
+
+		if (Integer.parseInt(dates[0]) < 2015) {
+			LOGGER.info("Year is less than 2015");
+			return false;
+		}
+
+		if (Integer.parseInt(dates[1]) == 1 || Integer.parseInt(dates[1]) == 3 || Integer.parseInt(dates[1]) == 5
+				|| Integer.parseInt(dates[1]) == 7 || Integer.parseInt(dates[1]) == 8
+				|| Integer.parseInt(dates[1]) == 10 || Integer.parseInt(dates[1]) == 12) {
+			LOGGER.info("Month is 1/3/5/7/8/10/12");
+			if (Integer.parseInt(dates[2]) > 31) {
+				LOGGER.info("Days is greater than 31 on a month with 31 days");
+				return false;
+			}
+		} else if (Integer.parseInt(dates[2]) > 30) {
+			LOGGER.info("Days is greater than 30 on a month with 30 days");
+			return false;
+		}
+
+		if (Integer.parseInt(dates[1]) == 2) {
+			LOGGER.info("Month is 2, February");
+			if ((Integer.parseInt(dates[0]) % 4) != 0 && ((Integer.parseInt(dates[0]) % 200) != 0)) {
+				LOGGER.info("Year % 4 != 0  and Year % 200 != 0");
+				if (Integer.parseInt(dates[2]) > 28) {
+					LOGGER.info("Days is greater than 28 on a month with 28 days");
+					return false;
+				}
+			} else if (Integer.parseInt(dates[2]) > 29) {
+				LOGGER.info("Days is greater than 29 on a month with 29 days");
+				return false;
+			}
+		}
+
+		return true;
+
 	}
 }

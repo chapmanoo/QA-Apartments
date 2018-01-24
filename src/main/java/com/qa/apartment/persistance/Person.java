@@ -35,7 +35,7 @@ public class Person {
 
 	@Column(name = "phone_number")
 	@Size(min = 11, max = 11)
-	@Pattern(regexp = "^[0-9]*$", message = "phone number must contain numbers only")
+	@Pattern(regexp = "^(0)([0-9])*$", message = "phone number must contain numbers only")
 	private String phoneNumber;
 
 	public Person() {
