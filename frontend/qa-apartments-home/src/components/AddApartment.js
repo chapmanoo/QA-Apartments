@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import Notifications from './NotificationComp/HomeNotifications'
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -84,7 +85,7 @@ class AddApartment extends React.Component {
         stateToSend.rent = (Number(stateToSend.rent));
         create(JSON.stringify(stateToSend));
     }
-
+    
     handleChange1 =(date)=> {
         this.setState({
           apartment:{...this.state.apartment, leaseStart: date}

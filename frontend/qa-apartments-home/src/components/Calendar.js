@@ -13,8 +13,8 @@ class Calendar extends React.Component {
   }
   render(){
     const groups = [
-      {id: 1, title: 'group 1'},
-      {id: 2, title: 'group 2'}
+      {id: 1, title: 'Apartment1'},
+      {id: 2, title: 'Apartment2'}
     ]
    const items = [
       {id: 1, group: 1, title: 'item 1', start_time: moment(), end_time: moment().add(1, 'hour')},
@@ -25,7 +25,7 @@ class Calendar extends React.Component {
       <div>
       <Timeline groups={groups}
                 items={items}
-                defaultTimeStart={moment().add(-12, 'hour')}
+                defaultTimeStart={moment().add(-12, 'hour')}  
                 defaultTimeEnd={moment().add(12, 'hour')}
                 />
     </div>);
