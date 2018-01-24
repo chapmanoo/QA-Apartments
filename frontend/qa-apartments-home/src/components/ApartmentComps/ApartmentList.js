@@ -4,15 +4,15 @@ import ApartmentListItem from './ApartmentListItem';
 
 class ApartmentList extends React.Component {
   render() {
-      const {list}=this.props;
+      const {apartments,getApartment, addRoom}=this.props;
     return (
-            <select id="apartmentSelect">
+            <table>
             {
-              list.map(apartment => 
-                   <ApartmentListItem apartment={apartment}/>
+              apartments.map(apartment => 
+                   <ApartmentListItem addRoom={addRoom} getApartment={getApartment} apartment={apartment}/>
               )
             }
-            </select>
+            </table>
     );
   }
 }

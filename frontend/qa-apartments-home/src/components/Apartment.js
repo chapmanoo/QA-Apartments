@@ -3,7 +3,6 @@ import React from 'react';
 import ApartmentList from './ApartmentComps/ApartmentList';
 import RoomList from './ApartmentComps/RoomList';
 import RoomSchedule from './ApartmentComps/RoomSchedule';
-import AddRoomToApartment from './ApartmentComps/AddRoomToApartment';
 
 import {baseUrl} from './helperFunctions';
 
@@ -13,7 +12,7 @@ class Apartment extends React.Component {
         super();
 
     this.state = {
-      stateText:[],
+      apartments:[],
       roomText:[],
       roomSchedule:[],
       leaseStart:null,
@@ -27,29 +26,48 @@ class Apartment extends React.Component {
     this.getApartmentList();
   }
 
+   addRoom=(id)=>{
+    const roomObject = {
+            "apartment" : { "id" : id }
+        }
+    const url = baseUrl + 'room/addRoom';
+
+    const fetchData = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(roomObject)
+    };
+
+    fetch(url, fetchData)
+    .then((data)=>{
+      console.log('added right?')
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  };
+
 
  
-  getApartment = () => {
-    let selectBox = document.getElementById("apartmentSelect");
-    let selectedValue = selectBox.options[selectBox.selectedIndex].value;
-   
-    const url = `${baseUrl}apartment/json/`;
+  getApartment = (id) => {
+    const url = `${baseUrl}apartment/json/${id}`;
 
     let fetchData = { 
       method: 'GET',
       mode: 'no-cors'
     };
    
-    fetch(url+selectedValue,fetchData)
+    fetch(url,fetchData)
     .then(response=>{
-        //If a 2xx response is received return the response as JSON
         if(response.ok){  
           return response.json();  
         }
-        //Throw an error otherwise and jump to the catch statement
         throw Error(response.statusText);
     })
     .then(response=>{
+      console.log(response)
       this.setState({
                     leaseStart:response.leaseStart,
                     leaseEnd:response.leaseEnd,
@@ -78,12 +96,12 @@ getApartmentList = () => {
   )
   .then(response=>{
 
-    const ids = response.reduce((acc,apartment)=>{
-      acc.push(apartment.id);
+    const apartments = response.reduce((acc,apartment)=>{
+      acc.push(apartment);
       return acc;
     },[])
-    
-     this.setState({stateText:ids});
+    console.log(apartments)
+     this.setState({apartments});
   })
   .catch(error=>{
     console.log("Request Failed: " + error.message);
@@ -102,13 +120,16 @@ getAllRooms = (idValue) => {
   .then(response=> 
     response.ok?response.json():Error(response.statusText)
   )
-  .then(data=>
-     data.reduce((acc,room)=>{
+  .then(data=>{
+    console.log(data)
+    const roomArray = data.reduce((acc,room)=>{
         if(String(idValue)===String(room.apartment.id)){
           acc.push(room.roomId);
         }
       return acc;
-    },[]))
+    },[])
+    return roomArray
+  })
   .then((roomIds)=>{
       this.setState({roomText:roomIds});
   })
@@ -120,7 +141,7 @@ getAllRooms = (idValue) => {
 getRoomDetails = () => {
   let selectBox = document.getElementById("roomSelect");
   let selectedValue = selectBox.options[selectBox.selectedIndex].value;
-  let url = `${baseUrl}schedule/json/`;
+  let url = `${baseUrl}schedule/json`;
 
   let fetchData = { 
     method: 'GET',
@@ -138,13 +159,12 @@ getRoomDetails = () => {
   })
   .then(response=>{
     const roomData = response.reduce((acc,room)=>{
-     
         if(String(selectedValue) === String(room.roomID.roomId)){
           acc.push(room);
         }
       return acc;
     },[])
-  
+    console.log(roomData)
     this.setState({roomSchedule:roomData});
   })
   .catch(error=>{
@@ -156,27 +176,29 @@ getRoomDetails = () => {
     return (
       <div>
         <div>
-         <ApartmentList list={this.state.stateText}/>
+         <ApartmentList addRoom={this.addRoom} apartments={this.state.apartments} getApartment={this.getApartment}/>
             <br/>
-            <button id="getApartment"onClick={()=>this.getApartment()}>Get Apartment</button><br/>
+            {/* <button id="getApartment"onClick={()=>this.getApartment()}>Get Apartment</button><br/> */}
         </div>
         <br/> <br/> 
         <hr/>
         <div> 
-          <select id="roomSelect">
+          <table id="roomtable">
+        
           {
               this.state.roomText.map(room => 
                 <RoomList room={room}/>
               )
-          } 
-          </select>
+          } #
+         
+          </table>
           <button id="getRoomInfo" onClick={()=>this.getRoomDetails()}>Get Room Details</button><br/>
           {
               this.state.roomSchedule.map(roomInfo => 
                 <RoomSchedule roomInfo={roomInfo}/>
               )
           }
-          <AddRoomToApartment id={this.state.id}/>
+          {/* <AddRoomToApartment id={this.state.id}/> */}
         </div>
         <br/> <br/> <br/> <br/>
         <hr/>
