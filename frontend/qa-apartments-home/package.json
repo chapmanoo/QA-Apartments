@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "express": "^4.16.2",
+    "interact.js": "^1.2.8",
     "moment": "^2.20.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
+    "react-calendar-timeline": "^0.15.7",
     "react-datepicker": "^1.0.4",
     "react-dom": "^16.2.0",
     "react-moment": "^0.7.0",

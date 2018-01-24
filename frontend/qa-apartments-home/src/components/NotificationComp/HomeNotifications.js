@@ -7,13 +7,13 @@ class HomeNotifications extends React.Component {
     return () => {
       switch (type) {
         case 'info':
-          NotificationManager.info('Info message');
+          NotificationManager.info('Info message - Stuff be happening');
           break;
         case 'success':
-          NotificationManager.success('Success message', 'Title here');
+          NotificationManager.success('Successful add', 'Title here');
           break;
         case 'warning':
-          NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+          NotificationManager.warning('Warning message', 'People are due to move in...', 30000);
           break;
         case 'error':
           NotificationManager.error('Error message', 'Click me!', 5000, () => {
@@ -42,7 +42,6 @@ class HomeNotifications extends React.Component {
         <button className='btn btn-danger'
           onClick={this.createNotification('error')}>Error
         </button>
- 
         <NotificationContainer/>
       </div>
     );
