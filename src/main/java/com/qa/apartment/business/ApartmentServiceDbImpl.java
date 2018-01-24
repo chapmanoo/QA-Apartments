@@ -9,11 +9,14 @@ import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
 
+import com.qa.apartment.integration.ApartmentEndpoint;
 import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class ApartmentServiceDbImpl implements ApartmentService {
+	
+	private static final Logger LOGGER = Logger.getLogger(ApartmentEndpoint.class);
 
 	private static final Logger LOGGER = Logger.getLogger(ApartmentServiceDbImpl.class);
 
@@ -36,13 +39,21 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	public String createApartment(String apartment) {
 
 		Apartment newApartment = util.getObjectForJSON(apartment, Apartment.class);
+		boolean check = newApartment.getBreakClause().compareTo(newApartment.getLeaseStart()) >= 0;
+			
 		if (newApartment != null) {
 			if (isValidApartmentDates(apartment)) {
 				em.persist(newApartment);
 				return "{\"message\": \"Apartment sucessfully Added\", \"id\" : " + newApartment.getId() + "}";
 			}
 		}
+    
+    if(!check) {
+			return "{\"message\": \"Break clause must be after lease start date\"}";
+		}
+    
 		return "{\"message\": \"Apartment not added\"}";
+    
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
