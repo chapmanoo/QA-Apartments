@@ -2,13 +2,17 @@ package com.qa.apartment.persistance;
 
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.qa.apartment.persistance.Address;
@@ -46,26 +50,28 @@ public class Apartment {
 	@Column(length = 10, name = "lease_start")
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	//@Future(message = "Lease end must be in the future")
 	private Date leaseStart;
 
 	@Column(length = 10, name = "lease_end")
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	@Future(message = "Lease end must be in the future")
 	private Date leaseEnd;
 
 	@Column(length = 10, name = "break_clause")
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	@Future(message = "Break clause must be in the future")
 	private Date breakClause;
 
 	@Column(length = 11, name = "agency_phone_number")
 	@Size(min = 11, max = 11)
 	@Pattern(regexp = "^(0)([0-9])*$", message = "phone number must contain numbers only")
 	private String agencyPhoneNo;
-
+  
 	@Column(length = 1, name = "number_of_rooms")
-	@Max(3)
-	@Min(2)
+	@Range(min = 2, max = 3, message = "Apartments can have 2 or 3 rooms only")
 	private Integer noRooms;
 
 	@Column(length = 8)
