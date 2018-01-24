@@ -8,16 +8,12 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
-
-import com.qa.apartment.integration.ApartmentEndpoint;
 import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class ApartmentServiceDbImpl implements ApartmentService {
 	
-	private static final Logger LOGGER = Logger.getLogger(ApartmentEndpoint.class);
-
 	private static final Logger LOGGER = Logger.getLogger(ApartmentServiceDbImpl.class);
 
 	@PersistenceContext(unitName = "primary")
