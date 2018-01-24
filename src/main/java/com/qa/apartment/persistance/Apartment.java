@@ -3,6 +3,8 @@ package com.qa.apartment.persistance;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -62,6 +64,8 @@ public class Apartment {
 	private String agencyPhoneNo;
 
 	@Column(length = 1, name = "number_of_rooms")
+	@Max(3)
+	@Min(2)
 	private Integer noRooms;
 
 	@Column(length = 8)
@@ -73,7 +77,7 @@ public class Apartment {
 	private String notes;
 
 	@Column(length = 175)
-	@NotNull
+	@NotEmpty
 	private String address;
 
 	@Column(length = 9)

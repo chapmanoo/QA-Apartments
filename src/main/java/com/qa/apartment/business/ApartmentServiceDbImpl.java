@@ -60,6 +60,7 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 		Apartment apartment = util.getObjectForJSON(newApartment, Apartment.class);
 		Apartment selectedApartment = findApartment(id);
 		if (selectedApartment != null) {
+			apartment.setId(selectedApartment.getId());
 			selectedApartment = apartment;
 			em.merge(apartment);
 			return "{\"message\": \"Apartment sucessfully updated\"}";
