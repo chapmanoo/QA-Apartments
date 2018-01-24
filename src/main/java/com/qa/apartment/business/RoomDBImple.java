@@ -57,7 +57,10 @@ public class RoomDBImple implements RoomService {
 	@Override
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String updateRoomFromRoom(Long id, Room room) {
+		Room oldRoom = findRoom(id);
 		if (room != null) {
+			room.setRoomId(oldRoom.getRoomId());
+			oldRoom = room;
 			em.merge(room);
 			return "{\"message\": \"room sucessfully updated\"}";
 		}
@@ -66,7 +69,7 @@ public class RoomDBImple implements RoomService {
 
 	@Override
 	@Transactional(Transactional.TxType.REQUIRED)
-	public String deleteRoom(long id) {
+	public String deleteRoom(Long id) {
 		if (findRoom(id) != null) {
 			em.remove(findRoom(id));
 			return "{\"message\": \"room sucessfully deleted\"}";
@@ -82,7 +85,7 @@ public class RoomDBImple implements RoomService {
 	}
 
 	@Override
-	public Room findRoom(long id) {
+	public Room findRoom(Long id) {
 		return em.find(Room.class, id);
 	}
 

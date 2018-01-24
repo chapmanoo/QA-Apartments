@@ -43,11 +43,8 @@ public class PersonDBImple implements PersonService {
 		Person aPerson = util.getObjectForJSON(newDetails, Person.class);
 		Person currentPerson = findPerson(id);
 		if (currentPerson != null) {
-			LOGGER.info("Current person: " + util.getJSONForObject(currentPerson));
-			LOGGER.info("New person: " + util.getJSONForObject(currentPerson));
 			aPerson.setPersonID(currentPerson.getPersonID());
 			currentPerson = aPerson;
-			LOGGER.info("Merge data: " + util.getJSONForObject(currentPerson));
 			em.merge(currentPerson);
 			return "{\"message\": \"person sucessfully updated\"}";
 		}
