@@ -7,10 +7,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {baseUrl} from './helperFunctions';
 
 function create(apartmentObject){
-
-    let url = baseUrl + "apartment/json";
-
-    let fetchData = {
+    const url = baseUrl + "apartment/json";
+    const fetchData = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,18 +31,18 @@ class AddApartment extends React.Component {
         },
         apartment:{
            addressField:{},
-          leaseStart: moment(),
-          leaseEnd: moment(),
-          breakClause: moment()
+           leaseStart: moment(),
+           leaseEnd: moment(),
+           breakClause: moment()
         }
        
       }
     }
 
     getFullDate = (dateRequired) => {
-      var year = dateRequired._d.getFullYear().toString()
-      var month = Number((dateRequired._d.getMonth()) + 1).toString()
-      var day = dateRequired._d.getDate().toString()
+      const year = dateRequired._d.getFullYear().toString()
+      let month = Number((dateRequired._d.getMonth()) + 1).toString()
+      let day = dateRequired._d.getDate().toString()
       if(month < 10)
       {
         month = 0 + month;
@@ -82,26 +80,20 @@ class AddApartment extends React.Component {
         stateToSend.noRooms = Number(stateToSend.noRooms);
         stateToSend.deposit = (Number(stateToSend.deposit));
         stateToSend.rent = Number(stateToSend.rent);
-        create(JSON.stringify(stateToSend));
+        create(JSON.stringify(stateToSend))
+
     }
 
-    handleChange1 =(date)=> {
-        this.setState({
-          apartment:{...this.state.apartment, leaseStart: date}
-        });
+    handleChange =(date)=> {
+        console.log(this.startId)
+            this.setState({
+                apartment:{...this.state.apartment, 
+                [this.startId.input.id+'value']: this.startId.props.selected._d,
+                [this.endId.input.id+'value']: this.endId.props.selected._d,
+                [this.breakId.input.id+'value']: this.breakId.props.selected._d
+            }});
       }
 
-      handleChange2 =(date)=> {
-        this.setState({
-          apartment:{...this.state.apartment, leaseEnd: date}
-        });
-      }
-
-      handleChange3 =(date)=> {
-        this.setState({
-          apartment:{...this.state.apartment, breakClause: date}
-        });
-      }
     
       render(){
         return (
@@ -113,9 +105,9 @@ class AddApartment extends React.Component {
                 <input type='text' id='agency' onChange={this.onChange} placeholder='Agency'/>*<br/>
                 <input type='text' id='landlord' onChange={this.onChange} placeholder='Landlord'/><br/>
                 <input type='text' id='tenant' onChange={this.onChange} placeholder='Tenant'/>*<br/>
-                <DatePicker id='leaseStart' selected={this.state.apartment.leaseStart}onChange={this.handleChange1}/>
-                <DatePicker id='leaseEnd' selected={this.state.apartment.leaseEnd}onChange={this.handleChange2}/>
-                <DatePicker id='breakClause' selected={this.state.apartment.breakClause}onChange={this.handleChange3}/>
+                <DatePicker id='leaseStart' ref={node => this.startId = node} selected={this.state.apartment.leaseStart} onChange={this.handleChange}/>
+                <DatePicker id='leaseEnd' ref={node => this.endId = node} selected={this.state.apartment.leaseEnd} onChange={this.handleChange}/>
+                <DatePicker id='breakClause' ref={node => this.breakId = node} selected={this.state.apartment.breakClause} onChange={this.handleChange}/>
                 <input type='text' id='agencyPhoneNo' onChange={this.onChange} placeholder='Agency Telephone Number'/>*<br/>
                 <input type='text' id='noRooms' onChange={this.onChange} placeholder='Number of rooms'/><br/>
                 <input type='text' id='rent' onChange={this.onChange} placeholder='Rent: 00.00'/>*<br/>

@@ -3,6 +3,7 @@ import React from 'react';
 import ApartmentList from './ApartmentComps/ApartmentList';
 import RoomList from './ApartmentComps/RoomList';
 import RoomSchedule from './ApartmentComps/RoomSchedule';
+import AddRoomToApartment from './ApartmentComps/AddRoomToApartment';
 
 import {baseUrl} from './helperFunctions';
 
@@ -17,7 +18,8 @@ class Apartment extends React.Component {
       roomSchedule:[],
       leaseStart:null,
       leaseEnd:null,
-      breakClause:null
+      breakClause:null,
+      id:null
     };
   }
 
@@ -25,10 +27,12 @@ class Apartment extends React.Component {
     this.getApartmentList();
   }
 
+
+ 
   getApartment = () => {
     let selectBox = document.getElementById("apartmentSelect");
     let selectedValue = selectBox.options[selectBox.selectedIndex].value;
-    let id;
+   
     const url = `${baseUrl}apartment/json/`;
 
     let fetchData = { 
@@ -46,19 +50,15 @@ class Apartment extends React.Component {
         throw Error(response.statusText);
     })
     .then(response=>{
-      //Do stuff with the JSON
-      //alert(JSON.stringify(response));
       this.setState({
                     leaseStart:response.leaseStart,
                     leaseEnd:response.leaseEnd,
-                    breakClause:response.breakClause
+                    breakClause:response.breakClause,
+                    id : response.id
                   })
-      id = response.id;
-      //  console.log('getting room details for selected Value: '+selectedValue)
-    
     })
     .then(()=>
-        this.getAllRooms(String(id))
+        this.getAllRooms(String(this.state.id))
     )
     .catch(error=>{
       console.log("Request Failed: " + error.message);
@@ -77,12 +77,12 @@ getApartmentList = () => {
        response.ok?response.json():Error(response.statusText)
   )
   .then(response=>{
-    console.log('adding stuf')
+
     const ids = response.reduce((acc,apartment)=>{
       acc.push(apartment.id);
       return acc;
     },[])
-    console.log(ids)
+    
      this.setState({stateText:ids});
   })
   .catch(error=>{
@@ -92,14 +92,14 @@ getApartmentList = () => {
 }
 
 getAllRooms = (idValue) => {
-  let url = `${baseUrl}room/getRoom/`;
+  let url = `${baseUrl}room/getRoom`;
   let fetchData = { 
     method: 'GET',
     mode: 'no-cors'
   };
 
   fetch(url,fetchData)
-  .then(response=>
+  .then(response=> 
     response.ok?response.json():Error(response.statusText)
   )
   .then(data=>
@@ -138,13 +138,13 @@ getRoomDetails = () => {
   })
   .then(response=>{
     const roomData = response.reduce((acc,room)=>{
-      console.log(room)
+     
         if(String(selectedValue) === String(room.roomID.roomId)){
           acc.push(room);
         }
       return acc;
     },[])
-    console.log(roomData)
+  
     this.setState({roomSchedule:roomData});
   })
   .catch(error=>{
@@ -176,6 +176,7 @@ getRoomDetails = () => {
                 <RoomSchedule roomInfo={roomInfo}/>
               )
           }
+          <AddRoomToApartment id={this.state.id}/>
         </div>
         <br/> <br/> <br/> <br/>
         <hr/>
