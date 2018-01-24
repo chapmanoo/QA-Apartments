@@ -1,23 +1,36 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
+import Timeline from 'react-calendar-timeline/lib'
+import moment from 'moment'
 
-const Calendar = () => {
-      return (
-        <div className='pageheader'>
-          <div className='row'>
-            <div className="col-md-6">
-              <h2>WelcoCalendars</h2>
-              <p>Since supplying our first trailers to ITV’s successful crime drama, Cracker in 1992, HNA has built up an extensive track record providing facilities vehicles to TV and Film throughout the UK and mainland Europe.
-              </p>
-              <p>
-              For twenty-five years, HNA Facilities has been involved in thousands of dramas and feature film productions, providing serviced vehicle hire for on-location support.
-              </p>
-              <p>
-              HNA operates a comprehensive range of vehicles to cater for all requirements, large or small, using experienced, friendly drivers. Our hands-on 24/7 management approach ensures your job runs smoothly every time.</p>
-              </div>
-            </div>
-        </div>
-      );
-    };
+class Calendar extends React.Component {
+  constructor(){
+    super();
 
+    this.state = {
+
+    }
+  }
+  render(){
+    const groups = [
+      {id: 1, title: 'Apartment1'},
+      {id: 2, title: 'Apartment2'}
+    ]
+   const items = [
+      {id: 1, group: 1, title: 'item 1', start_time: moment(), end_time: moment().add(1, 'hour')},
+      {id: 2, group: 2, title: 'item 2', start_time: moment().add(-0.5, 'hour'), end_time: moment().add(0.5, 'hour')},
+      {id: 3, group: 1, title: 'item 3', start_time: moment().add(2, 'hour'), end_time: moment().add(3, 'hour')}
+    ]
+    return (
+      <div>
+      <Timeline groups={groups}
+                items={items}
+                defaultTimeStart={moment().add(-12, 'hour')}  
+                defaultTimeEnd={moment().add(12, 'hour')}
+                />
+    </div>);
+  }
+    
+}
 
 export default Calendar;

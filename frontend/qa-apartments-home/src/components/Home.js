@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import Notifications from './NotificationComp/HomeNotifications'
 
 class Home extends React.Component {
   
@@ -18,6 +19,7 @@ class Home extends React.Component {
                 </p>
 
                 <p>notifications</p>
+                <Notifications/>
                 </div>
               </div>
           </div>
