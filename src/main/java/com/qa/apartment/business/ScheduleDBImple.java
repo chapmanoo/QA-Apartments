@@ -31,13 +31,18 @@ public class ScheduleDBImple implements ScheduleService {
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
-	public String updateSchedule(String schedule) {
+	public String updateSchedule(Long id, String schedule) {
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
-		em.merge(aSchedule);
-		return "{\"message\": \"schedule sucessfully updated\"}";
+		Schedule selectedSchedule = util.getObjectForJSON(findSchedule(id), Schedule.class);
+		if (selectedSchedule != null) {
+			aSchedule.setId(selectedSchedule.getId());
+			em.merge(aSchedule);
+			return "{\"message\": \"schedule sucessfully updated\"}";
+		}
+		return "{\"message\": \"schedule not updated\"}";
 	}
 
-	public String findSchedule(long id) {
+	public String findSchedule(Long id) {
 		return util.getJSONForObject(em.find(Schedule.class, id));
 	}
 
@@ -47,9 +52,4 @@ public class ScheduleDBImple implements ScheduleService {
 		return util.getJSONForObject(schedule);
 	}
 
-	@Override
-	public String findSchedule(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

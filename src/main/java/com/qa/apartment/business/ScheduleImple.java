@@ -37,13 +37,12 @@ public class ScheduleImple implements ScheduleService {
 	}
 
 	@Transactional(REQUIRED)
-	public String updateSchedule(String schedule) {
+	public String updateSchedule(Long id, String schedule) {
 		Schedule updatedSchedule = util.getObjectForJSON(schedule, Schedule.class);
-		long id = updatedSchedule.getId();
 		Schedule scheduleOld = scheduleList.get(id);
 		if (scheduleOld != null) {
 			scheduleOld = updatedSchedule;
-			scheduleList.put((long) updatedSchedule.getId(), scheduleOld);
+			scheduleList.put(updatedSchedule.getId(), scheduleOld);
 			return "{\"message\": \"schedule sucessfully updated\"}";
 		}
 		return "{\"message\": \"schedule not updated see log\"}";

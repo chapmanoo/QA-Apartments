@@ -13,11 +13,11 @@ public interface RoomService {
 
 	String updateRoomFromRoom(Long id, Room room);
 
-	String deleteRoom(long id);
+	String deleteRoom(Long id);
 
 	String findAllRooms();
 
-	Room findRoom(long id);
+	Room findRoom(Long id);
 
 	void setUtil(JSONUtil util);
 

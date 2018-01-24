@@ -6,11 +6,14 @@ import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.qa.apartment.persistance.Address;
 
@@ -22,22 +25,26 @@ public class Apartment {
 	private Long id;
 
 	@Column(length = 30, name = "building_name")
-	@NotNull
+	@NotEmpty(message = "Building name cannot be empty")
+	@Pattern(regexp = "^[A-zÀ-ÿ0-9 ]*$", message = "Building name cannot contain special characters")
 	private String buildingName;
 
 	@Column(length = 5)
-	@NotNull
+	@NotEmpty(message = "Apartment name cannot be empty")
+	@Pattern(regexp = "^[A-zÀ-ÿ0-9 ]*$", message = "Apartment name cannot contain special characters")
 	private String apartmentNo;
 
 	@Column(length = 25)
-	@NotNull
+	@NotEmpty(message = "Agency cannot be empty")
+	@Pattern(regexp = "^[A-zÀ-ÿ0-9 ]*$", message = "Agency name cannot contain special characters")
 	private String agency;
 
 	@Column(length = 30)
+	@Pattern(regexp = "^[A-zÀ-ÿ ]*$", message = "Landlord cannot contain special characters or numbers")
 	private String landlord;
 
 	@Column(length = 30)
-	@NotNull
+	@Pattern(regexp = "^[A-zÀ-ÿ ]*$", message = "Tenant cannot contain special characters or numbers")
 	private String tenant;
 
 	@Column(length = 10, name = "lease_start")
@@ -58,12 +65,11 @@ public class Apartment {
 	@Future(message = "Break clause must be in the future")
 	private Date breakClause;
 
-	@Column(name = "agency_phone_number")
+	@Column(length = 11, name = "agency_phone_number")
 	@Size(min = 11, max = 11)
-	@Pattern(regexp = "^[0-9]*$", message = "phone number must contain numbers only")
-	@NotNull
+	@Pattern(regexp = "^(0)([0-9])*$", message = "phone number must contain numbers only")
 	private String agencyPhoneNo;
-
+  
 	@Column(length = 1, name = "number_of_rooms")
 	@Range(min = 2, max = 3, message = "Apartments can have 2 or 3 rooms only")
 	private Integer noRooms;
@@ -77,7 +83,7 @@ public class Apartment {
 	private String notes;
 
 	@Column(length = 175)
-	@NotNull
+	@NotEmpty
 	private String address;
 
 	@Column(length = 9)
