@@ -98,6 +98,16 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 			LOGGER.info("Year is less than 2015");
 			return false;
 		}
+		
+		if (Integer.parseInt(dates[1]) > 12 || Integer.parseInt(dates[1]) < 1) {
+			LOGGER.info("Month is greater than 12 or less than 1");
+			return false;
+		}
+		
+		if (Integer.parseInt(dates[2]) < 1) {
+			LOGGER.info("Day is less than 1");
+			return false;
+		}
 
 		if (Integer.parseInt(dates[1]) == 1 || Integer.parseInt(dates[1]) == 3 || Integer.parseInt(dates[1]) == 5
 				|| Integer.parseInt(dates[1]) == 7 || Integer.parseInt(dates[1]) == 8
