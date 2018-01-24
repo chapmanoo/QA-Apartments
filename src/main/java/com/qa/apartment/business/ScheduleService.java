@@ -10,5 +10,5 @@ public interface ScheduleService {
 
 		String deleteSchedule(Long id);
 
-		String updateSchedule(String schedule);
+		String updateSchedule(Long id, String schedule);
 }

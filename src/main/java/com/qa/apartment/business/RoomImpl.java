@@ -92,7 +92,7 @@ public class RoomImpl implements RoomService {
 	}
 
 	@Override
-	public String deleteRoom(long id) {
+	public String deleteRoom(Long id) {
 		LOGGER.info("In deleteRoom method about delete room");
 		if (roomMap.get(id) != null) {
 			roomMap.remove(id);
@@ -110,7 +110,7 @@ public class RoomImpl implements RoomService {
 	}
 
 	@Override
-	public Room findRoom(long id) {
+	public Room findRoom(Long id) {
 		return roomMap.get(id);
 	}
 
