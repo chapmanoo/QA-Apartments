@@ -7,6 +7,11 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Range;
+
 import com.qa.apartment.persistance.Address;
 
 @Entity
@@ -53,11 +58,14 @@ public class Apartment {
 	@Future(message = "Break clause must be in the future")
 	private Date breakClause;
 
-	@Column(length = 11, name = "agency_phone_number")
+	@Column(name = "agency_phone_number")
+	@Size(min = 11, max = 11)
+	@Pattern(regexp = "^[0-9]*$", message = "phone number must contain numbers only")
 	@NotNull
 	private String agencyPhoneNo;
 
 	@Column(length = 1, name = "number_of_rooms")
+	@Range(min = 2, max = 3, message = "Apartments can have 2 or 3 rooms only")
 	private Integer noRooms;
 
 	@Column(length = 8)
