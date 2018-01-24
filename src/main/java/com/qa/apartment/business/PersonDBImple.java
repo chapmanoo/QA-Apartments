@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import com.qa.apartment.persistance.Person;
 import com.qa.apartment.util.JSONUtil;
@@ -14,7 +14,7 @@ import com.qa.apartment.util.JSONUtil;
 @Transactional(Transactional.TxType.SUPPORTS)
 public class PersonDBImple implements PersonService {
 	
-	private static final Logger LOGGER = Logger.getLogger(PersonDBImple.class);
+//	private static final Logger LOGGER = Logger.getLogger(PersonDBImple.class);
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
