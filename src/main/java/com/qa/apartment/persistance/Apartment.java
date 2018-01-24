@@ -2,7 +2,10 @@ package com.qa.apartment.persistance;
 
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import com.qa.apartment.persistance.Address;
 
@@ -35,16 +38,19 @@ public class Apartment {
 	@Column(length = 10, name = "lease_start")
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	@Future(message = "Lease end must be in the future")
 	private Date leaseStart;
 
 	@Column(length = 10, name = "lease_end")
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	@Future(message = "Lease end must be in the future")
 	private Date leaseEnd;
 
 	@Column(length = 10, name = "break_clause")
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	@Future(message = "Break clause must be in the future")
 	private Date breakClause;
 
 	@Column(length = 11, name = "agency_phone_number")

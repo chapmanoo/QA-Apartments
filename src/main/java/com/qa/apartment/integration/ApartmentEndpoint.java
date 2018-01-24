@@ -7,7 +7,7 @@ import com.qa.apartment.util.JSONUtil;
 import javax.inject.*;
 
 @Path("/apartment")
-@Produces("application/json")
+//@Produces("application/json")
 public class ApartmentEndpoint {
 	private static final Logger LOGGER = Logger.getLogger(ApartmentEndpoint.class);
 
@@ -31,7 +31,7 @@ public class ApartmentEndpoint {
 	
 	@POST
 	@Path("/json")
-	@Consumes("application/json")
+	//@Consumes("application/json")
 	public String createApartment(String newAp) {
 		LOGGER.info("in ApartmentEndpoint the value of string is  " + newAp);
 		return service.createApartment(newAp);

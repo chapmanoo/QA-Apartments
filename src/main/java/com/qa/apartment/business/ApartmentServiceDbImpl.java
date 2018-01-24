@@ -6,11 +6,16 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
+
+import com.qa.apartment.integration.ApartmentEndpoint;
 import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class ApartmentServiceDbImpl implements ApartmentService {
+	
+	private static final Logger LOGGER = Logger.getLogger(ApartmentEndpoint.class);
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
@@ -29,7 +34,14 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createApartment(String apartment) {
+		
 		Apartment newApartment = util.getObjectForJSON(apartment, Apartment.class);
+		boolean check = newApartment.getBreakClause().compareTo(newApartment.getLeaseStart()) >= 0;
+		
+		if(!check) {
+			return "{\"message\": \"Break clause must be after lease start date\"}";
+		}
+		
 		em.persist(newApartment);
 		return "{\"message\": \"Apartment sucessfully Added\"}";
 	}
