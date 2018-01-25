@@ -8,10 +8,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {baseUrl} from './helperFunctions';
 
 function create(apartmentObject){
-
-    let url = baseUrl + "apartment/json";
-
-    let fetchData = {
+    const url = baseUrl + "apartment/json";
+    const fetchData = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,18 +32,18 @@ class AddApartment extends React.Component {
         },
         apartment:{
            addressField:{},
-          leaseStart: moment(),
-          leaseEnd: moment(),
-          breakClause: moment()
+           leaseStart: moment(),
+           leaseEnd: moment(),
+           breakClause: moment()
         }
        
       }
     }
 
     getFullDate = (dateRequired) => {
-      var year = dateRequired._d.getFullYear().toString()
-      var month = Number((dateRequired._d.getMonth()) + 1).toString()
-      var day = dateRequired._d.getDate().toString()
+      const year = dateRequired._d.getFullYear().toString()
+      let month = Number((dateRequired._d.getMonth()) + 1).toString()
+      let day = dateRequired._d.getDate().toString()
       if(month < 10)
       {
         month = 0 + month;
@@ -60,13 +58,11 @@ class AddApartment extends React.Component {
 
     onChange=e=>{
         this.setState({apartment:{...this.state.apartment,[e.target.id]: e.target.value}})
-        console.log(this.state)
     }
 
        onChangeAdd=e=>{
         // console.log(e.target.value)
         this.setState({apartment:{...this.state.apartment,addressField:{...this.state.apartment.addressField,[e.target.id]: e.target.value}}})
-        console.log(this.state)
     }
 
     addApartment=()=>{
@@ -83,7 +79,8 @@ class AddApartment extends React.Component {
         stateToSend.noRooms = Number(stateToSend.noRooms);
         stateToSend.deposit = (Number(stateToSend.deposit));
         stateToSend.rent = Number(stateToSend.rent);
-        create(JSON.stringify(stateToSend));
+        create(JSON.stringify(stateToSend))
+
     }
     
     handleChange1 =(date)=> {
@@ -103,6 +100,7 @@ class AddApartment extends React.Component {
           apartment:{...this.state.apartment, breakClause: date}
         });
       }
+
     
       render(){
         return (
