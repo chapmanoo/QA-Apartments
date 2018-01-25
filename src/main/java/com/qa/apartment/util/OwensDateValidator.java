@@ -12,8 +12,8 @@ public class OwensDateValidator {
 		Integer month = Integer.parseInt(dates[1]);
 		Integer day = Integer.parseInt(dates[2]);
 
-		LOGGER.info("Year: " + year + ". Month: " + month + ". Day: "
-				+ day);
+		LOGGER.info("Year: " + year + ". Month: " + month 
+				+ ". Day: "+ day);
 
 		if (year < 2015) {
 			LOGGER.info("Year is less than 2015");
