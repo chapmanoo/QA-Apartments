@@ -15,6 +15,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.ws.rs.DefaultValue;
 
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -97,6 +98,9 @@ public class Apartment {
 
 	@Embedded
 	private Address addressField;
+	
+	@DefaultValue("true")
+	private Boolean isActive;
 
 	public Apartment() {
 
@@ -256,6 +260,14 @@ public class Apartment {
 
 	public void setAddressField(Address addressField) {
 		this.addressField = addressField;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }
