@@ -52,13 +52,12 @@ class Apartment extends React.Component {
       })
   };
 
-
-
   getApartment = (id) => {
     const url = `${baseUrl}apartment/json/${id}`;
 
     let fetchData = {
       method: 'GET'
+
     };
 
     fetch(url, fetchData)
