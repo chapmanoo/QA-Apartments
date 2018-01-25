@@ -23,8 +23,7 @@ class Calendar extends React.Component {
   getApartmentList = () => {
     let url = `${baseUrl}apartment/json/`;
     let fetchData = { 
-      method: 'GET',
-      mode: 'no-cors'
+      method: 'GET'
     };
     fetch(url,fetchData)
     .then(response=>
