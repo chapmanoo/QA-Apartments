@@ -11,7 +11,10 @@ class ApartmentListItem extends React.Component {
           </td>        
           <td>
           {apartment.buildingName}
-          </td>        
+          </td>       
+                   <td>
+          {apartment.landlord}
+          </td>    
           <td>
           {apartment.noRooms}
           </td>

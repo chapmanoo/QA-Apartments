@@ -57,13 +57,11 @@ class AddApartment extends React.Component {
 
     onChange=e=>{
         this.setState({apartment:{...this.state.apartment,[e.target.id]: e.target.value}})
-        console.log(this.state)
     }
 
        onChangeAdd=e=>{
         // console.log(e.target.value)
         this.setState({apartment:{...this.state.apartment,addressField:{...this.state.apartment.addressField,[e.target.id]: e.target.value}}})
-        console.log(this.state)
     }
 
     addApartment=()=>{
@@ -84,14 +82,22 @@ class AddApartment extends React.Component {
 
     }
 
-    handleChange =(date)=> {
-        console.log(this.startId)
-            this.setState({
-                apartment:{...this.state.apartment, 
-                [this.startId.input.id+'value']: this.startId.props.selected._d,
-                [this.endId.input.id+'value']: this.endId.props.selected._d,
-                [this.breakId.input.id+'value']: this.breakId.props.selected._d
-            }});
+    handleChange1 =(date)=> {
+        this.setState({
+          apartment:{...this.state.apartment, leaseStart: date}
+        });
+      }
+
+      handleChange2 =(date)=> {
+        this.setState({
+          apartment:{...this.state.apartment, leaseEnd: date}
+        });
+      }
+
+      handleChange3 =(date)=> {
+        this.setState({
+          apartment:{...this.state.apartment, breakClause: date}
+        });
       }
 
     
@@ -105,9 +111,9 @@ class AddApartment extends React.Component {
                 <input type='text' id='agency' onChange={this.onChange} placeholder='Agency'/>*<br/>
                 <input type='text' id='landlord' onChange={this.onChange} placeholder='Landlord'/><br/>
                 <input type='text' id='tenant' onChange={this.onChange} placeholder='Tenant'/>*<br/>
-                <DatePicker id='leaseStart' ref={node => this.startId = node} selected={this.state.apartment.leaseStart} onChange={this.handleChange}/>
-                <DatePicker id='leaseEnd' ref={node => this.endId = node} selected={this.state.apartment.leaseEnd} onChange={this.handleChange}/>
-                <DatePicker id='breakClause' ref={node => this.breakId = node} selected={this.state.apartment.breakClause} onChange={this.handleChange}/>
+                <DatePicker id='leaseStart' selected={this.state.apartment.leaseStart}onChange={this.handleChange1}/>
+                <DatePicker id='leaseEnd' selected={this.state.apartment.leaseEnd}onChange={this.handleChange2}/>
+                <DatePicker id='breakClause' selected={this.state.apartment.breakClause}onChange={this.handleChange3}/>
                 <input type='text' id='agencyPhoneNo' onChange={this.onChange} placeholder='Agency Telephone Number'/>*<br/>
                 <input type='text' id='noRooms' onChange={this.onChange} placeholder='Number of rooms'/><br/>
                 <input type='text' id='rent' onChange={this.onChange} placeholder='Rent: 00.00'/>*<br/>
