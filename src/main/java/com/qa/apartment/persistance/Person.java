@@ -20,12 +20,12 @@ public class Person {
 	private Long personID;
 
 	@Column(name = "first_name", length = 15)
-	//@NotEmpty(message = "Name cannot be null")
+	@NotEmpty(message = "Name cannot be null")
 	@Pattern(regexp = "^[A-zÀ-ÿ]*$", message = "First name cannot contain a number")
 	private String firstName;
 
 	@Column(name = "last_name", length = 15)
-	//@NotEmpty(message = "Name cannot be null")
+	@NotEmpty(message = "Name cannot be null")
 	@Pattern(regexp = "^[A-zÀ-ÿ]*$", message = "Last name cannot contain a number")
 	private String lastName;
 
