@@ -57,7 +57,6 @@ class Apartment extends React.Component {
 
     let fetchData = {
       method: 'GET'
-
     };
 
     fetch(url, fetchData)
@@ -147,7 +146,7 @@ class Apartment extends React.Component {
     let url = `${baseUrl}schedule/json`;
 
     let fetchData = {
-      method: 'GET'
+      method: 'GET',
     };
 
     fetch(url, fetchData)
