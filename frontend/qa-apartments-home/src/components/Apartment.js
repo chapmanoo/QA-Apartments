@@ -52,14 +52,11 @@ class Apartment extends React.Component {
       })
   };
 
-
-
   getApartment = (id) => {
     const url = `${baseUrl}apartment/json/${id}`;
 
     let fetchData = {
-      method: 'GET',
-      mode: 'no-cors'
+      method: 'GET'
     };
 
     fetch(url, fetchData)
@@ -89,8 +86,7 @@ class Apartment extends React.Component {
   getApartmentList = () => {
     let url = `${baseUrl}apartment/json/`;
     let fetchData = {
-      method: 'GET',
-      mode: 'no-cors'
+      method: 'GET'
     };
 
     fetch(url, fetchData)
@@ -151,7 +147,6 @@ class Apartment extends React.Component {
 
     let fetchData = {
       method: 'GET',
-      mode: 'no-cors'
     };
 
     fetch(url, fetchData)

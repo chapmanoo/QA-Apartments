@@ -15,7 +15,7 @@ class Home extends React.Component {
                 </p>
                 <p>
                 button with add person to apartment <br/>
-                <NavLink to="/apartments/addPersonToApartment" exact activeClassName="active"><button>Assign person to apartment</button></NavLink>
+                <NavLink to="/AddPerson" activeClassName="active"><button>Add Person</button></NavLink>
                 </p>
 
                 <p>notifications</p>
