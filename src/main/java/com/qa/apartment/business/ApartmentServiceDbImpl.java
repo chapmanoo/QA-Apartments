@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
-import com.qa.apartment.util.OwensDateValidator;
+import com.qa.apartment.util.DateValidator;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class ApartmentServiceDbImpl implements ApartmentService {
@@ -22,7 +22,7 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	private JSONUtil util;
 
 	@Inject
-	private OwensDateValidator odv;
+	private DateValidator dv;
 
 	public Apartment findApartment(Long id) {
 		return em.find(Apartment.class, id);
@@ -35,22 +35,17 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createApartment(String apartment) {
-
 		Apartment newApartment = util.getObjectForJSON(apartment, Apartment.class);
-		boolean check = newApartment.getBreakClause().compareTo(newApartment.getLeaseStart()) >= 0;
+		Boolean check = newApartment.getBreakClause().compareTo(newApartment.getLeaseStart()) >= 0;
 
-		if (newApartment != null && isValidApartmentDates(apartment)) {
+		if (newApartment != null && isValidApartmentDates(apartment) && check) {
+			LOGGER.info("Apartment passed validation checks");
 			em.persist(newApartment);
-			return "{\"message\": \"Apartment sucessfully Added\", \"id\" : " + newApartment.getId() + "}";
-
+			return "{\"message\": \"Apartment sucessfully Added\",\r\n \"id\" : " + newApartment.getId() + "}";
+		} else {
+			LOGGER.info("Apartment failed validation checks");
+			return "{\"message\": \"Apartment not added\"}";
 		}
-
-		if (!check) {
-			return "{\"message\": \"Break clause must be after lease start date\"}";
-		}
-
-		return "{\"message\": \"Apartment not added\"}";
-
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
@@ -78,7 +73,7 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	}
 
 	private Boolean isValidApartmentDates(String apartment) {
-		
+
 		LOGGER.info("String passed in: " + apartment);
 		String[] apartmentArray = apartment.split(",");
 
@@ -94,11 +89,12 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 
 		Boolean toReturn = false;
 
-		if (odv.checkLogic(dates) && odv.checkLogic(dates2) && odv.checkLogic(dates3)) {
+		if (dv.checkLogic(dates) && dv.checkLogic(dates2) && dv.checkLogic(dates3)) {
 			LOGGER.info("All dates pass logic check");
 			toReturn = true;
+		} else {
+			LOGGER.info("Dates failed logic check");
 		}
-		LOGGER.info("Dates failed logic check");
 		return toReturn;
 	}
 

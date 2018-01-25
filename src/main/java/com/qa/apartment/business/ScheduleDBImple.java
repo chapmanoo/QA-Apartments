@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import com.qa.apartment.persistance.Schedule;
 import com.qa.apartment.util.JSONUtil;
-import com.qa.apartment.util.OwensDateValidator;
+import com.qa.apartment.util.DateValidator;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class ScheduleDBImple implements ScheduleService {
@@ -24,7 +24,7 @@ public class ScheduleDBImple implements ScheduleService {
 	private JSONUtil util;
 
 	@Inject
-	private OwensDateValidator odv;
+	private DateValidator odv;
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createScheduleFromString(String schedule) {

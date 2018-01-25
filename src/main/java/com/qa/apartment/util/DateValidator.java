@@ -2,9 +2,9 @@ package com.qa.apartment.util;
 
 import org.apache.log4j.Logger;
 
-public class OwensDateValidator {
+public class DateValidator {
 
-	private static final Logger LOGGER = Logger.getLogger(OwensDateValidator.class);
+	private static final Logger LOGGER = Logger.getLogger(DateValidator.class);
 
 	public Boolean checkLogic(String[] dates) {
 

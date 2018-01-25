@@ -55,7 +55,6 @@ public class Apartment {
 	@Column(length = 10, name = "lease_start")
 	@NotNull
 	@Temporal(TemporalType.DATE)
-	//@Future(message = "Lease end must be in the future")
 	private Date leaseStart;
 
 	@Column(length = 10, name = "lease_end")
