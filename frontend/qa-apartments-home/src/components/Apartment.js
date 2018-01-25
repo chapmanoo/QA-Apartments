@@ -62,8 +62,11 @@ class Apartment extends React.Component {
     };
 
     fetch(url, fetchData)
-      .then(function(response){
+      .then(response => {
+        if (response.ok) {
           return response.json();
+        }
+        throw Error(response.statusText);
       })
       .then(response => {
         this.setState({
@@ -77,6 +80,9 @@ class Apartment extends React.Component {
         console.log(this.state.id);
         this.getAllRooms(String(this.state.id))
       })
+      .catch(error => {
+        console.log("Request Failed: " + error.message);
+      });
   }
 
   getApartmentList = () => {
@@ -87,7 +93,7 @@ class Apartment extends React.Component {
 
     fetch(url, fetchData)
       .then(response =>
-        response.json()
+        response.ok ? response.json() : Error(response.statusText)
       )
       .then(response => {
 
@@ -98,19 +104,22 @@ class Apartment extends React.Component {
         console.log(apartments)
         this.setState({ apartments });
       })
+      .catch(error => {
+        console.log("Request Failed: " + error.message);
+      });
 
   }
 
   getAllRooms = (idValue) => {
-    let url = `${baseUrl}room/getRoom`;
+    // let url = `${baseUrl}room/getRoom`;
+    let url = 'http://localhost:8080/qa-apartments3/rest/room/getRoom';
     let fetchData = {
       method: 'GET'
     };
 
     fetch(url, fetchData)
-      .then(function(response){
-        return response.json();
-      }
+      .then(response =>
+        response.ok ? response.json() : Error(response.statusText)
       )
       .then(data => {
         console.log("get room request", data)
@@ -128,6 +137,9 @@ class Apartment extends React.Component {
         console.log("roomIDs", roomIds);
         this.setState({ roomText: roomIds });
       })
+      .catch(error => {
+        console.log("Request Failed: " + error.message);
+      });
   }
 
   getRoomDetails = () => {
@@ -140,10 +152,14 @@ class Apartment extends React.Component {
     };
 
     fetch(url, fetchData)
-      .then(function(response){
-        return response.json();
-      }
-      )
+      .then(response => {
+        //If a 2xx response is received return the response as JSON
+        if (response.ok) {
+          return response.json();
+        }
+        //Throw an error otherwise and jump to the catch statement
+        throw Error(response.statusText);
+      })
       .then(response => {
         const roomData = response.reduce((acc, room) => {
           if (String(selectedValue) === String(room.roomID.roomId)) {
@@ -154,6 +170,9 @@ class Apartment extends React.Component {
         console.log(roomData)
         this.setState({ roomSchedule: roomData });
       })
+      .catch(error => {
+        console.log("Request Failed: " + error.message);
+      });
   }
 
   render() {
