@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
 import com.qa.apartment.util.OwensDateValidator;
@@ -13,8 +13,7 @@ import com.qa.apartment.util.OwensDateValidator;
 @Transactional(Transactional.TxType.SUPPORTS)
 public class ApartmentServiceDbImpl implements ApartmentService {
 
-	// private static final Logger LOGGER =
-	// Logger.getLogger(ApartmentServiceDbImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(ApartmentServiceDbImpl.class);
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
@@ -79,6 +78,8 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	}
 
 	private Boolean isValidApartmentDates(String apartment) {
+		
+		LOGGER.info("String passed in: " + apartment);
 		String[] apartmentArray = apartment.split(",");
 
 		// leaseStart 5, leaseEnd 6, breakClause 7
@@ -93,9 +94,11 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 
 		Boolean toReturn = false;
 
-		if (odv.checkLogic(dates) && odv.checkLogic(dates2) && odv.checkLogic(dates3))
+		if (odv.checkLogic(dates) && odv.checkLogic(dates2) && odv.checkLogic(dates3)) {
+			LOGGER.info("All dates pass logic check");
 			toReturn = true;
-
+		}
+		LOGGER.info("Dates failed logic check");
 		return toReturn;
 	}
 

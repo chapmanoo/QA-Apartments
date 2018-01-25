@@ -7,13 +7,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
+import org.apache.log4j.Logger;
 import com.qa.apartment.persistance.Schedule;
 import com.qa.apartment.util.JSONUtil;
 import com.qa.apartment.util.OwensDateValidator;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class ScheduleDBImple implements ScheduleService {
+
+	private static final Logger LOGGER = Logger.getLogger(ApartmentServiceDbImpl.class);
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
@@ -27,11 +29,9 @@ public class ScheduleDBImple implements ScheduleService {
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createScheduleFromString(String schedule) {
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
-		if (aSchedule != null) {
-			if (isValidScheduleDates(schedule)) {
-				em.persist(aSchedule);
-				return "{\"message\": \"schedule sucessfully added\"}";
-			}
+		if (aSchedule != null && isValidScheduleDates(schedule)) {
+			em.persist(aSchedule);
+			return "{\"message\": \"schedule sucessfully added\"}";
 		}
 		return "{\"message\": \"schedule not added\"}";
 	}
@@ -46,12 +46,10 @@ public class ScheduleDBImple implements ScheduleService {
 	public String updateSchedule(Long id, String schedule) {
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
 		Schedule selectedSchedule = util.getObjectForJSON(findSchedule(id), Schedule.class);
-		if (selectedSchedule != null) {
-			if (isValidScheduleDates(schedule)) {
-				aSchedule.setId(selectedSchedule.getId());
-				em.merge(aSchedule);
-				return "{\"message\": \"schedule sucessfully updated\"}";
-			}
+		if (selectedSchedule != null && isValidScheduleDates(schedule)) {
+			aSchedule.setId(selectedSchedule.getId());
+			em.merge(aSchedule);
+			return "{\"message\": \"schedule sucessfully updated\"}";
 		}
 		return "{\"message\": \"schedule not updated\"}";
 	}
@@ -67,6 +65,8 @@ public class ScheduleDBImple implements ScheduleService {
 	}
 
 	private Boolean isValidScheduleDates(String schedule) {
+
+		LOGGER.info("String passed in: " + schedule);
 		String[] scheduleArray = schedule.split(",");
 
 		String[] from_date = scheduleArray[0].split("\"");
@@ -78,8 +78,10 @@ public class ScheduleDBImple implements ScheduleService {
 		Boolean toReturn = false;
 
 		if (odv.checkLogic(fromDateYMD) && odv.checkLogic(toDateYMD)) {
+			LOGGER.info("Dates passed logic check");
 			toReturn = true;
 		}
+		LOGGER.info("Dates fail logic check");
 		return toReturn;
 	}
 
