@@ -23,15 +23,13 @@ class Calendar extends React.Component {
   getApartmentList = () => {
     let url = `${baseUrl}apartment/json/`;
     let fetchData = { 
-      method: 'GET',
-      mode: 'no-cors'
+      method: 'GET'
     };
     fetch(url,fetchData)
-    .then(response=>
-         response.ok?response.json():Error(response.statusText)
-    )
+    .then(function(response){
+      return response.json();   
+  })
     .then(response=>{
-      console.log('adding stuf')
       const apartmentArray = response.reduce((acc,apartment)=>{
         acc.push(apartment);
         return acc;
@@ -41,12 +39,8 @@ class Calendar extends React.Component {
         acc.push(obj);
         return acc;
       },[])
-      console.log('apartmentArray:',apartmentArray)
        this.setState({apartmentArray,groups});
     })
-    .catch(error=>{
-      console.log("Request Failed: " + error.message);
-    }); 
   }
 
   render(){
