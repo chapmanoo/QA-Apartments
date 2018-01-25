@@ -11,6 +11,7 @@ import logo from './logo.svg';
 import Home from './components/Home';
 import Apartment from './components/Apartment';
 import AddApartment from './components/AddApartment';
+import AddPerson from './components/AddPerson';
 import Calendar from './components/Calendar';
 import './App.css';
 
@@ -32,6 +33,7 @@ class App extends Component {
             <Route exact path = "/" component={Home}/>
             <Route exact path = "/apartment" component={Apartment}/>
             <Route path = "/apartments/addApartment" component={AddApartment}/>
+            <Route path = "/addPerson" component={AddPerson}/>
             <Route path = "/calendar" component={Calendar}/>
       
           </div>
