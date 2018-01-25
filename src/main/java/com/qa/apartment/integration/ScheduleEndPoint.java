@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import com.qa.apartment.business.ScheduleDBImple;
 
 @Path("/schedule")
-//@Produces("application/json")
+@Produces("application/json")
 public class ScheduleEndPoint {
 
 	@Inject
@@ -32,7 +32,7 @@ public class ScheduleEndPoint {
 
 	@POST
 	@Path("/json")
-	//@Consumes("application/json")
+	@Consumes("application/json")
 	public String addNewBookToMap(String schedule) {
 		return impl.createScheduleFromString(schedule);
 	}

@@ -2,6 +2,7 @@ package com.qa.apartment.persistance;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class Schedule {
 	private Date to_date;
 
 	// Table joins for many to many relationships
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "person_personID"))
 	private Person personID;
 

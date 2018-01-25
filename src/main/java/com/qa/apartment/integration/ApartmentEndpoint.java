@@ -1,13 +1,20 @@
 package com.qa.apartment.integration;
 
-import javax.ws.rs.*;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import org.apache.log4j.Logger;
 import com.qa.apartment.business.ApartmentServiceDbImpl;
 import com.qa.apartment.util.JSONUtil;
-import javax.inject.*;
 
 @Path("/apartment")
-//@Produces("application/json")
+@Produces("application/json")
 public class ApartmentEndpoint {
 	private static final Logger LOGGER = Logger.getLogger(ApartmentEndpoint.class);
 
@@ -31,10 +38,16 @@ public class ApartmentEndpoint {
 	
 	@POST
 	@Path("/json")
-	//@Consumes("application/json")
+	@Consumes("application/json")
 	public String createApartment(String newAp) {
 		LOGGER.info("in ApartmentEndpoint the value of string is  " + newAp);
-		return service.createApartment(newAp);
+		String toReturn;
+		try {
+		toReturn = service.createApartment(newAp);
+		} catch (Exception e) {
+			toReturn = "Something went wrong. " + e ;
+		}
+		return toReturn;
 	}
 	
 	@DELETE
