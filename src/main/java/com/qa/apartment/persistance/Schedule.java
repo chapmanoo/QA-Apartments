@@ -2,7 +2,6 @@ package com.qa.apartment.persistance;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -35,7 +34,6 @@ public class Schedule{
 	@Future(message = "To date must be in the future")
 	private Date to_date;
 
-	// Table joins for many to many relationships
 	@ManyToOne
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "person_personID"))
 	private Person personID;
