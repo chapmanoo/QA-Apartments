@@ -140,38 +140,40 @@ class Apartment extends React.Component {
       });
   }
 
-  getRoomDetails = () => {
-    let selectBox = document.getElementById("roomSelect");
-    let selectedValue = selectBox.options[selectBox.selectedIndex].value;
-    let url = `${baseUrl}schedule/json`;
+  // getRoomDetails = () => {
+  //   let selectBox = document.getElementById("roomSelect");
+  //   let selectedValue = selectBox.options[selectBox.selectedIndex].value;
+  //   let url = `${baseUrl}schedule/json`;
 
-    let fetchData = {
-      method: 'GET',
-    };
+  //   let fetchData = {
+  //     method: 'GET',
+  //   };
 
-    fetch(url, fetchData)
-      .then(response => {
-        //If a 2xx response is received return the response as JSON
-        if (response.ok) {
-          return response.json();
-        }
-        //Throw an error otherwise and jump to the catch statement
-        throw Error(response.statusText);
-      })
-      .then(response => {
-        const roomData = response.reduce((acc, room) => {
-          if (String(selectedValue) === String(room.roomID.roomId)) {
-            acc.push(room);
-          }
-          return acc;
-        }, [])
-        console.log(roomData)
-        this.setState({ roomSchedule: roomData });
-      })
-      .catch(error => {
-        console.log("Request Failed: " + error.message);
-      });
-  }
+  //   fetch(url, fetchData)
+  //     .then(response => {
+  //       //If a 2xx response is received return the response as JSON
+  //       if (response.ok) {
+  //         return response.json();
+  //       }
+  //       //Throw an error otherwise and jump to the catch statement
+  //       throw Error(response.statusText);
+  //     })
+  //     .then(response => {
+  //       const roomData = response.reduce((acc, room) => {
+  //         if (String(selectedValue) === String(room.roomID.roomId)) {
+  //           acc.push(room);
+  //         }
+  //         return acc;
+  //       }, [])
+  //       console.log(roomData)
+  //       this.setState({ roomSchedule: roomData });
+  //     })
+  //     .catch(error => {
+  //       console.log("Request Failed: " + error.message);
+  //     });
+  // }
+
+
 
   render() {
     return (
@@ -190,10 +192,10 @@ class Apartment extends React.Component {
               this.state.roomText.map(room =>
                 <RoomList room={room} />
               )
-            } #
+            } 
 
           </table>
-          <button id="getRoomInfo" onClick={() => this.getRoomDetails()}>Get Room Details</button><br />
+          {/* <button id="getRoomInfo" onClick={() => this.getRoomDetails()}>Get Room Details</button><br /> */}
           {
             this.state.roomSchedule.map(roomInfo =>
               <RoomSchedule roomInfo={roomInfo} />
