@@ -9,11 +9,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.apache.log4j.Logger;
 import com.qa.apartment.business.ScheduleDBImple;
 
 @Path("/schedule")
 @Produces("application/json")
 public class ScheduleEndPoint {
+	
+	private static final Logger LOGGER = Logger.getLogger(ScheduleEndPoint.class);
 
 	@Inject
 	private ScheduleDBImple impl;
@@ -34,6 +37,7 @@ public class ScheduleEndPoint {
 	@Path("/json")
 	@Consumes("application/json")
 	public String addNewBookToMap(String schedule) {
+		LOGGER.info("POST on schedule started");
 		return impl.createScheduleFromString(schedule);
 	}
 

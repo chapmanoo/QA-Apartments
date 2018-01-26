@@ -76,11 +76,25 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 
 		LOGGER.info("String passed in: " + apartment);
 		String[] apartmentArray = apartment.split(",");
+		
+		String[] leaseStart = null;
+		String[] leaseEnd = null;
+		String[] breakClause = null;
 
-		// leaseStart 5, leaseEnd 6, breakClause 7
-		String[] leaseStart = apartmentArray[5].split("\"");
-		String[] leaseEnd = apartmentArray[6].split("\"");
-		String[] breakClause = apartmentArray[7].split("\"");
+		for(int i = 0; i < apartmentArray.length; i++) {
+			if (apartmentArray[i].contains("leaseStart"))
+			{
+				leaseStart = apartmentArray[i].split("\"");
+			}
+			if (apartmentArray[i].contains("leaseEnd"))
+			{
+				leaseEnd = apartmentArray[i].split("\"");
+			}
+			if (apartmentArray[i].contains("breakClause"))
+			{
+				breakClause = apartmentArray[i].split("\"");
+			}
+		}
 
 		// date numbers 3
 		String[] dates = leaseStart[3].split("-");
