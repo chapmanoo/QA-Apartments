@@ -35,11 +35,11 @@ public class Schedule {
 	private Date to_date;
 
 	// Table joins for many to many relationships
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "person_personID"))
 	private Person personID;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "room_roomIDs"))
 	private Room roomID;
 
