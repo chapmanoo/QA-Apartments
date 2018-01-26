@@ -47,7 +47,7 @@ public class ApartmentEndpoint {
 		} catch (Exception e) {
 			toReturn = "Something went wrong. " + e ;
 		}
-		return toReturn;
+		return "{ \"message\" : \"" + toReturn + "\"}";
 	}
 	
 	@DELETE

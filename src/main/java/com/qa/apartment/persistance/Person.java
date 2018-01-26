@@ -29,7 +29,7 @@ public class Person {
 
 	@Column(name = "last_name", length = 15)
 	@NotEmpty(message = "Name cannot be null")
-	@Pattern(regexp = "^[A-zÀ-ÿ-]*$", message = "Last name cannot contain a number")
+	@Pattern(regexp = "^[A-zÀ-ÿ-]*$", message = "Last name cannot contain a number") "^[A-zÀ-ÿ]*$", message = "Last name cannot contain a number")
 	private String lastName;
 
 	@Column(length = 50)
