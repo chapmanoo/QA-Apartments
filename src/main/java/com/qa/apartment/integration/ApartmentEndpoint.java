@@ -9,12 +9,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.apache.log4j.Logger;
 import com.qa.apartment.business.ApartmentServiceDbImpl;
 import com.qa.apartment.util.JSONUtil;
 
 @Path("/apartment")
-@Produces("application/json")
+//@Produces("application/json")
 public class ApartmentEndpoint {
 	private static final Logger LOGGER = Logger.getLogger(ApartmentEndpoint.class);
 
@@ -38,7 +40,7 @@ public class ApartmentEndpoint {
 	
 	@POST
 	@Path("/json")
-	@Consumes("application/json")
+	//@Consumes(MediaType.APPLICATION_JSON)
 	public String createApartment(String newAp) {
 		LOGGER.info("in ApartmentEndpoint the value of string is  " + newAp);
 		String toReturn;
