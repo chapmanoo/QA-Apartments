@@ -42,8 +42,8 @@ public class DateValidator {
 
 		if (month == 2) {
 			LOGGER.info("Month is 2, February");
-			if ((year % 4) != 0 && (year % 200) != 0) {
-				LOGGER.info("Year % 4 != 0  and Year % 200 != 0");
+			if ((year % 4) != 0) {
+				LOGGER.info("Year % 4 != 0  and Year % 100 != 0");
 				if (day > 28) {
 					LOGGER.info("Days is greater than 28 on a month with 28 days");
 					return false;

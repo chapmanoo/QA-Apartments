@@ -16,7 +16,7 @@ public class Address {
 
 	@Column(length = 20)
 	@NotEmpty(message = "cannot be empty")
-	@Pattern(regexp = "^[A-zÀ-ÿ0-9 ]*$", message = "City cann")
+	@Pattern(regexp = "^[A-zÀ-ÿ0-9 ]*$", message = "City cannot contain special characters")
 	private String city;
 
 	@Column(length = 9)

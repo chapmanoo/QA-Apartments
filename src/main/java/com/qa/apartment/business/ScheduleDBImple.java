@@ -28,6 +28,7 @@ public class ScheduleDBImple implements ScheduleService {
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createScheduleFromString(String schedule) {
+		LOGGER.info("Schedule string: " + schedule);
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
 		if (aSchedule != null && isValidScheduleDates(schedule)) {
 			em.persist(aSchedule);

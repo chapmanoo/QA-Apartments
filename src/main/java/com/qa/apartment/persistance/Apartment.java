@@ -18,12 +18,15 @@ import javax.validation.constraints.Size;
 import javax.ws.rs.DefaultValue;
 
 import org.hibernate.validator.constraints.Range;
+import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.qa.apartment.persistance.Address;
 
 @Entity
 public class Apartment {
+	
+	private static final Logger LOGGER = Logger.getLogger(Apartment.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -102,7 +105,7 @@ public class Apartment {
 	private Boolean isActive;
 
 	public Apartment() {
-
+		LOGGER.info("Inside APARTMENT empty constructor");
 	}
 
 	public Apartment(String buildingName, String apartmentNo, String agency, String landlord, String tenant,
@@ -123,6 +126,7 @@ public class Apartment {
 		this.address = address;
 		this.deposit = deposit;
 		this.addressField = addressObj;
+		LOGGER.info("Inside APARTMENT constructor without ID");
 	}
 
 	public Apartment(Long id, String buildingName, String apartmentNo, String agency, String landlord, String tenant,
@@ -131,6 +135,7 @@ public class Apartment {
 		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo,
 				noRooms, rent, notes, address, deposit, addressObj);
 		this.id = id;
+		LOGGER.info("Inside APARTMENT constructor with ID");
 	}
 
 	public Long getId() {
