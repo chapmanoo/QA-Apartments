@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +17,8 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.persistence.ForeignKey;
 
-@Entity
-public class Schedule {
+@Entity @Embeddable
+public class Schedule{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,6 +42,7 @@ public class Schedule {
 
 	@ManyToOne
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "room_roomIDs"))
+
 	private Room roomID;
 
 	public Schedule() {
