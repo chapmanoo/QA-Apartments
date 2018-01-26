@@ -8,11 +8,14 @@ import javax.persistence.Id;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Person {
+	
+	private static final Logger LOGGER = Logger.getLogger(Person.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,7 +42,7 @@ public class Person {
 	private String phoneNumber;
 
 	public Person() {
-
+		LOGGER.info("Inside PERSON empty constructor");
 	}
 
 	public Person(String firstName, String lastName, String email, String phoneNumber) {
@@ -47,11 +50,13 @@ public class Person {
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
+		LOGGER.info("Inside PERSON constructor without ID");
 	}
 
 	public Person(Long personID, String firstName, String lastName, String email, String phoneNumber) {
 		this(firstName, lastName, email, phoneNumber);
 		this.personID = personID;
+		LOGGER.info("Inside PERSON constructor with ID");
 	}
 
 	public String getFirstName() {

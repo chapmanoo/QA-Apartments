@@ -18,12 +18,15 @@ import javax.validation.constraints.Size;
 import javax.ws.rs.DefaultValue;
 
 import org.hibernate.validator.constraints.Range;
+import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.qa.apartment.persistance.Address;
 
 @Entity
 public class Apartment {
+	
+	private static final Logger LOGGER = Logger.getLogger(Apartment.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -86,10 +89,6 @@ public class Apartment {
 	@Column(length = 300)
 	private String notes;
 
-	@Column(length = 175)
-	@NotEmpty
-	private String address;
-
 	@Column(length = 9)
 	@Digits(integer = 6, fraction = 2)
 	@NotNull
@@ -103,12 +102,12 @@ public class Apartment {
 	private Boolean isActive;
 
 	public Apartment() {
-
+		LOGGER.info("Inside APARTMENT empty constructor");
 	}
 
 	public Apartment(String buildingName, String apartmentNo, String agency, String landlord, String tenant,
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
-			String notes, String address, Double deposit, Address addressObj) {
+			String notes, Double deposit, Address addressObj) {
 		this.buildingName = buildingName;
 		this.apartmentNo = apartmentNo;
 		this.agency = agency;
@@ -121,17 +120,18 @@ public class Apartment {
 		this.noRooms = noRooms;
 		this.rent = rent;
 		this.notes = notes;
-		this.address = address;
 		this.deposit = deposit;
 		this.addressField = addressObj;
+		LOGGER.info("Inside APARTMENT constructor without ID");
 	}
 
 	public Apartment(Long id, String buildingName, String apartmentNo, String agency, String landlord, String tenant,
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
-			String notes, String address, Double deposit, Address addressObj) {
+			String notes, Double deposit, Address addressObj) {
 		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo,
-				noRooms, rent, notes, address, deposit, addressObj);
+				noRooms, rent, notes, deposit, addressObj);
 		this.id = id;
+		LOGGER.info("Inside APARTMENT constructor with ID");
 	}
 
 	public Long getId() {
@@ -236,14 +236,6 @@ public class Apartment {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public Double getDeposit() {
