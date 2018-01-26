@@ -30,7 +30,7 @@ class Apartment extends React.Component {
     const roomObject = {
       "apartment": { "id": id }
     }
-    const url = baseUrl + 'room/addRoom';
+    const url = baseUrl + 'room/json';
 
     const fetchData = {
       method: 'POST',
@@ -110,7 +110,7 @@ class Apartment extends React.Component {
 
   getAllRooms = (idValue) => {
     // let url = `${baseUrl}room/getRoom`;
-    let url = 'http://localhost:8080/qa-apartments3/rest/room/getRoom';
+    let url = 'http://localhost:8080/qa-apartments3/rest/room/json';
     let fetchData = {
       method: 'GET'
     };
