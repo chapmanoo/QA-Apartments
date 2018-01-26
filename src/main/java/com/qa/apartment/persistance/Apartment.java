@@ -89,17 +89,12 @@ public class Apartment {
 	@Column(length = 300)
 	private String notes;
 
-	@Column(length = 175)
-	@NotEmpty
-	private String address;
-
 	@Column(length = 9)
 	@Digits(integer = 6, fraction = 2)
 	@NotNull
 	private Double deposit;
 
 	@Embedded
-	@NotEmpty
 	private Address addressField;
 	
 	@DefaultValue("true")
@@ -111,7 +106,7 @@ public class Apartment {
 
 	public Apartment(String buildingName, String apartmentNo, String agency, String landlord, String tenant,
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
-			String notes, String address, Double deposit, Address addressObj) {
+			String notes, Double deposit, Address addressObj) {
 		this.buildingName = buildingName;
 		this.apartmentNo = apartmentNo;
 		this.agency = agency;
@@ -124,7 +119,6 @@ public class Apartment {
 		this.noRooms = noRooms;
 		this.rent = rent;
 		this.notes = notes;
-		this.address = address;
 		this.deposit = deposit;
 		this.addressField = addressObj;
 		LOGGER.info("Inside APARTMENT constructor without ID");
@@ -134,7 +128,7 @@ public class Apartment {
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
 			String notes, String address, Double deposit, Address addressObj) {
 		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo,
-				noRooms, rent, notes, address, deposit, addressObj);
+				noRooms, rent, notes, deposit, addressObj);
 		this.id = id;
 		LOGGER.info("Inside APARTMENT constructor with ID");
 	}
@@ -241,14 +235,6 @@ public class Apartment {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public Double getDeposit() {
