@@ -24,27 +24,27 @@ public class RoomEndpoint {
 	private JSONUtil jsonUtil;
 
 	@GET
-	@Path("/getRoom/{id}")
+	@Path("/json/{id}")
 	public String getRoom(@PathParam("id") long id) {
 		Room room = roomService.findRoom(id);
 		return jsonUtil.getJSONForObject(room);
 	}
 
 	@GET
-	@Path("/getRoom")
+	@Path("/json")
 	public String getAllRooms() {
 		return roomService.findAllRooms();
 	}
 
 	@POST
-	@Path("/addRoom")
+	@Path("/json")
 	@Consumes("application/json")
 	public void createRoom(String json) {
 		roomService.createRoomFromString(json);
 	}
 
 	@DELETE
-	@Path("/deleteRoom/{id}")
+	@Path("/json/{id}")
 	public void deleteRoom(@PathParam("id") long id) {
 		roomService.deleteRoom(id);
 	}
