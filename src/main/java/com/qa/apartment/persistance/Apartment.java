@@ -34,25 +34,25 @@ public class Apartment {
 
 	@Column(length = 30, name = "building_name")
 	@NotEmpty(message = "Building name cannot be empty")
-	@Pattern(regexp = "^[A-zÀ-ÿ0-9 ]*$", message = "Building name cannot contain special characters")
+	@Pattern(regexp = "^[A-zÀ-ÿ0-9 -]*$", message = "Building name cannot contain special characters")
 	private String buildingName;
 
 	@Column(length = 5)
 	@NotEmpty(message = "Apartment name cannot be empty")
-	@Pattern(regexp = "^[A-zÀ-ÿ0-9 ]*$", message = "Apartment name cannot contain special characters")
+	@Pattern(regexp = "^[A-zÀ-ÿ0-9 -]*$", message = "Apartment name cannot contain special characters")
 	private String apartmentNo;
 
 	@Column(length = 25)
 	@NotEmpty(message = "Agency cannot be empty")
-	@Pattern(regexp = "^[A-zÀ-ÿ0-9 ]*$", message = "Agency name cannot contain special characters")
+	@Pattern(regexp = "^[A-zÀ-ÿ0-9 -]*$", message = "Agency name cannot contain special characters")
 	private String agency;
 
 	@Column(length = 30)
-	@Pattern(regexp = "^[A-zÀ-ÿ ]*$", message = "Landlord cannot contain special characters or numbers")
+	@Pattern(regexp = "^[A-zÀ-ÿ -]*$", message = "Landlord cannot contain special characters or numbers")
 	private String landlord;
 
 	@Column(length = 30)
-	@Pattern(regexp = "^[A-zÀ-ÿ ]*$", message = "Tenant cannot contain special characters or numbers")
+	@Pattern(regexp = "^[A-zÀ-ÿ -]*$", message = "Tenant cannot contain special characters or numbers")
 	private String tenant;
 
 	@Column(length = 10, name = "lease_start")
