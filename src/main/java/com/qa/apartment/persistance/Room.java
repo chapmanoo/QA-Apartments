@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 import org.apache.log4j.Logger;
 
 @Entity
@@ -21,6 +22,7 @@ public class Room {
 	@ManyToOne
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_room_apartment"))
 	private Apartment apartment;
+	
 
 	public Room() {
 		LOGGER.info("Inside ROOM empty constructor");
