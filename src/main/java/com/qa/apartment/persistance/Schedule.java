@@ -36,12 +36,13 @@ public class Schedule{
 	private Date to_date;
 
 	// Table joins for many to many relationships
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_person_personID"))
+	@ManyToOne
+	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "person_personID"))
 	private Person personID;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_room_roomIDs"))
+	@ManyToOne
+	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "room_roomIDs"))
+
 	private Room roomID;
 
 	public Schedule() {
