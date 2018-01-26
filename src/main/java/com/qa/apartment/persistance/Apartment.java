@@ -95,7 +95,6 @@ public class Apartment {
 	private Double deposit;
 
 	@Embedded
-	@NotEmpty
 	private Address addressField;
 	
 	@DefaultValue("true")

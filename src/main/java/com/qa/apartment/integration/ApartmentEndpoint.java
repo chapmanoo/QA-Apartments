@@ -16,7 +16,7 @@ import com.qa.apartment.business.ApartmentServiceDbImpl;
 import com.qa.apartment.util.JSONUtil;
 
 @Path("/apartment")
-//@Produces("application/json")
+// @Produces("application/json")
 public class ApartmentEndpoint {
 	private static final Logger LOGGER = Logger.getLogger(ApartmentEndpoint.class);
 
@@ -37,21 +37,21 @@ public class ApartmentEndpoint {
 	public String getAllApartments() {
 		return service.findAllApartments();
 	}
-	
+
 	@POST
 	@Path("/json")
-	//@Consumes(MediaType.APPLICATION_JSON)
+	// @Consumes(MediaType.APPLICATION_JSON)
 	public String createApartment(String newAp) {
 		LOGGER.info("in ApartmentEndpoint the value of string is  " + newAp);
 		String toReturn;
 		try {
-		toReturn = service.createApartment(newAp);
+			toReturn = service.createApartment(newAp);
 		} catch (Exception e) {
-			toReturn = "Something went wrong. " + e ;
+			toReturn = "Something went wrong. " + e.getMessage().replaceAll("\"", "'");
 		}
 		return "{ \"message\" : \"" + toReturn + "\"}";
 	}
-	
+
 	@DELETE
 	@Path("/json/{id}")
 	public String deleteApartment(@PathParam("id") Long id) {
