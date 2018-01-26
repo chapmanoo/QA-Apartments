@@ -41,7 +41,7 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 		if (newApartment != null && isValidApartmentDates(apartment) && check) {
 			LOGGER.info("Apartment passed validation checks");
 			em.persist(newApartment);
-			return "Apartment sucessfully Added\",\r\n \"id\" : " + newApartment.getId();
+			return "Apartment sucessfully Added\",\r\n \"id\" : \"" + newApartment.getId();
 		} else {
 			LOGGER.info("Apartment failed validation checks");
 			return "Apartment not added";
