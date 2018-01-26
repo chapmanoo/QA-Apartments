@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import com.qa.apartment.business.ScheduleDBImple;
 
 @Path("/schedule")
-@Produces("application/json")
+//@Produces("application/json")
 public class ScheduleEndPoint {
 	
 	private static final Logger LOGGER = Logger.getLogger(ScheduleEndPoint.class);
@@ -35,7 +35,7 @@ public class ScheduleEndPoint {
 
 	@POST
 	@Path("/json")
-	@Consumes("application/json")
+	//@Consumes("application/json")
 	public String addNewBookToMap(String schedule) {
 		LOGGER.info("POST on schedule started");
 		return impl.createScheduleFromString(schedule);

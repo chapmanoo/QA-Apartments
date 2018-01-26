@@ -126,7 +126,7 @@ public class Apartment {
 
 	public Apartment(Long id, String buildingName, String apartmentNo, String agency, String landlord, String tenant,
 			Date leaseStart, Date leaseEnd, Date breakClause, String agencyPhoneNo, Integer noRooms, Double rent,
-			String notes, String address, Double deposit, Address addressObj) {
+			String notes, Double deposit, Address addressObj) {
 		this(buildingName, apartmentNo, agency, landlord, tenant, leaseStart, leaseEnd, breakClause, agencyPhoneNo,
 				noRooms, rent, notes, deposit, addressObj);
 		this.id = id;
