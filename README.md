@@ -49,7 +49,10 @@ _The product is a web app aimed to replace QA Academy&#39;s current solution to 
     - Interoperability Endpoints
       - PUT, POST, DELETE, GET
 - Front End
-  -
+  - Ability to create Apartment, Rooms and People
+  - Addition of a Calender for Schedule.  Right now is linked to apartments as POC
+  - Notifications added to home page as POC
+  - Can grab all information for Apartment/Room details
 
 **To do:**
 
@@ -59,3 +62,7 @@ _The product is a web app aimed to replace QA Academy&#39;s current solution to 
     -
 - Front End
   - Interaction with all backend endpoints
+  - Conversion of calender to schedule not apartments
+  - Notifications added for validation of Apartments, Room, People and Schedule
+  - Notifications with callback for actions needing attention on Homepage (i.e People need putting in apartments, Lease is  ending)
+  - Ability to make an apartment dormant
