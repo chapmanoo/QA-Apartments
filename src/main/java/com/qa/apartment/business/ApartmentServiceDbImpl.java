@@ -36,9 +36,10 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createApartment(String apartment) {
 		Apartment newApartment = util.getObjectForJSON(apartment, Apartment.class);
-		Boolean check = newApartment.getBreakClause().compareTo(newApartment.getLeaseStart()) >= 0;
-
-		if (newApartment != null && isValidApartmentDates(apartment) && check) {
+		Boolean bcAfterls = newApartment.getBreakClause().compareTo(newApartment.getLeaseStart()) >= 0;
+		Boolean leAfterbc = newApartment.getLeaseEnd().compareTo(newApartment.getBreakClause()) >= 0;
+		
+		if (newApartment != null && isValidApartmentDates(apartment) && bcAfterls && leAfterbc) {
 			LOGGER.info("Apartment passed validation checks");
 			em.persist(newApartment);
 			return "Apartment sucessfully Added\",\r\n \"id\" : \"" + newApartment.getId();
@@ -62,7 +63,10 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	public String updateApartment(Long id, String newApartment) {
 		Apartment apartment = util.getObjectForJSON(newApartment, Apartment.class);
 		Apartment selectedApartment = findApartment(id);
-		if (selectedApartment != null && isValidApartmentDates(newApartment)) {
+		Boolean bcAfterls = apartment.getBreakClause().compareTo(apartment.getLeaseStart()) >= 0;
+		Boolean leAfterbc = apartment.getLeaseEnd().compareTo(apartment.getBreakClause()) >= 0;
+		
+		if (selectedApartment != null && isValidApartmentDates(newApartment) && bcAfterls && leAfterbc) {
 			apartment.setId(selectedApartment.getId());
 			selectedApartment = apartment;
 			em.merge(apartment);
