@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -94,6 +95,7 @@ public class Apartment {
 	@NotNull
 	private Double deposit;
 
+	@Valid
 	@Embedded
 	private Address addressField;
 	
