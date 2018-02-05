@@ -1,5 +1,7 @@
 package com.qa.apartment.util;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
 public class DateValidator {
@@ -56,5 +58,7 @@ public class DateValidator {
 
 		return true;
 
+		
 	}
+	
 }
