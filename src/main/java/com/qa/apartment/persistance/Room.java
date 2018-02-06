@@ -48,4 +48,8 @@ public class Room {
 	public void setRoomId(Long roomId) {
 		this.roomId = roomId;
 	}
+	
+	public Long getApartmentId() {
+		return apartment.getId();
+	}
 }
