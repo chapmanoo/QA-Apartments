@@ -30,7 +30,7 @@ public class Apartment {
 	private static final Logger LOGGER = Logger.getLogger(Apartment.class);
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(length = 30, name = "building_name")

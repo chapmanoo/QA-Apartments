@@ -16,7 +16,7 @@ public class Room {
 	private static final Logger LOGGER = Logger.getLogger(Room.class);
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long roomId;
   
 	@ManyToOne

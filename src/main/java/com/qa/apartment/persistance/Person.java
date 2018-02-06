@@ -18,7 +18,7 @@ public class Person {
 	private static final Logger LOGGER = Logger.getLogger(Person.class);
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long personID;
 
