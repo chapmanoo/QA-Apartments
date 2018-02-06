@@ -30,7 +30,9 @@ public class ScheduleDBImple implements ScheduleService {
 	public String createScheduleFromString(String schedule) {
 		LOGGER.info("Schedule string: " + schedule);
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
-		if (aSchedule != null && isValidScheduleDates(schedule)) {
+		Boolean toAfterFrom = aSchedule.getToDate().compareTo(aSchedule.getFromDate()) >= 0;
+		
+		if (aSchedule != null && isValidScheduleDates(schedule) && toAfterFrom) {
 			em.persist(aSchedule);
 			return "{\"message\": \"schedule sucessfully added\"}";
 		}
@@ -47,7 +49,9 @@ public class ScheduleDBImple implements ScheduleService {
 	public String updateSchedule(Long id, String schedule) {
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
 		Schedule selectedSchedule = util.getObjectForJSON(findSchedule(id), Schedule.class);
-		if (selectedSchedule != null && isValidScheduleDates(schedule)) {
+		Boolean toAfterFrom = aSchedule.getToDate().compareTo(aSchedule.getFromDate()) >= 0;
+		
+		if (selectedSchedule != null && isValidScheduleDates(schedule) && toAfterFrom) {
 			aSchedule.setId(selectedSchedule.getId());
 			em.merge(aSchedule);
 			return "{\"message\": \"schedule sucessfully updated\"}";
