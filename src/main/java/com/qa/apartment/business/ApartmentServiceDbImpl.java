@@ -40,23 +40,24 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createApartment(String apartment) {
 		Apartment newApartment = util.getObjectForJSON(apartment, Apartment.class);
-		Boolean bcAfterls = newApartment.getBreakClause().compareTo(newApartment.getLeaseStart()) >= 0;
-		Boolean leAfterbc = newApartment.getLeaseEnd().compareTo(newApartment.getBreakClause()) >= 0;
 
-		if (newApartment != null && isValidApartmentDates(apartment) && bcAfterls && leAfterbc) {
+		if (newApartment != null && isValidApartmentDates(apartment) 
+				&& dv.checkAfterOrEqual(newApartment.getBreakClause(), newApartment.getLeaseStart()) 
+				&& dv.checkAfterOrEqual(newApartment.getLeaseEnd(), newApartment.getBreakClause())) {
 			LOGGER.info("Apartment passed validation checks");
 			em.persist(newApartment);
 			return "Apartment successfully Added\",\r\n \"id\" : \"" + newApartment.getId();
+			
 		} else if (!isValidApartmentDates(apartment)) {
 			LOGGER.info("Apartment failed validation checks. Apartment has faulty dates e.g. month 15 or day 76.");
 			return "Apartment not added. Apartment has faulty dates e.g. month 15 or day 76.";
 
-		} else if (!bcAfterls) {
+		} else if (!dv.checkAfterOrEqual(newApartment.getBreakClause(), newApartment.getLeaseStart())) {
 			LOGGER.info(
 					"Apartment failed validation checks. The break clause date for apartment is before the lease start date.");
 			return "Apartment not added. The break clause date for apartment is before the lease start date.";
 
-		} else if (!leAfterbc) {
+		} else if (!dv.checkAfterOrEqual(newApartment.getLeaseEnd(), newApartment.getBreakClause())) {
 			LOGGER.info(
 					"Apartment failed validation checks. The lease end date for apartment is before the break clause date.");
 			return "Apartment not added. The lease end date for apartment is before the break clause date.";
@@ -92,24 +93,27 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 	public String updateApartment(Long id, String newApartment) {
 		Apartment apartment = util.getObjectForJSON(newApartment, Apartment.class);
 		Apartment selectedApartment = findApartment(id);
-		Boolean bcAfterls = apartment.getBreakClause().compareTo(apartment.getLeaseStart()) >= 0;
-		Boolean leAfterbc = apartment.getLeaseEnd().compareTo(apartment.getBreakClause()) >= 0;
 
-		if (selectedApartment != null && isValidApartmentDates(newApartment) && bcAfterls && leAfterbc) {
+		if (selectedApartment != null && isValidApartmentDates(newApartment) 
+				&& dv.checkAfterOrEqual(apartment.getBreakClause(), apartment.getLeaseStart()) 
+				&& dv.checkAfterOrEqual(apartment.getLeaseEnd(), apartment.getBreakClause())) {
+			
 			apartment.setId(selectedApartment.getId());
 			selectedApartment = apartment;
+			
 			em.merge(apartment);
 			return "{\"message\": \"Apartment successfully updated\"}";
+			
 		} else if (!isValidApartmentDates(newApartment)) {
 			LOGGER.info("Apartment failed validation checks. Apartment has faulty dates e.g. month 15 or day 76.");
 			return "Apartment not updated. Apartment has faulty dates e.g. month 15 or day 76.";
 
-		} else if (!bcAfterls) {
+		} else if (!dv.checkAfterOrEqual(apartment.getBreakClause(), apartment.getLeaseStart())) {
 			LOGGER.info(
 					"Apartment failed validation checks. The break clause date for apartment is before the lease start date.");
 			return "Apartment not updated. The break clause date for apartment is before the lease start date.";
 
-		} else if (!leAfterbc) {
+		} else if (!dv.checkAfterOrEqual(apartment.getLeaseEnd(), apartment.getBreakClause())) {
 			LOGGER.info(
 					"Apartment failed validation checks. The lease end date for apartment is before the break clause date.");
 			return "Apartment not updated. The lease end date for apartment is before the break clause date.";
