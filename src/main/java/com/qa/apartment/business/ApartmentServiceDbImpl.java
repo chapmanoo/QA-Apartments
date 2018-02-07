@@ -46,10 +46,24 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 		if (newApartment != null && isValidApartmentDates(apartment) && bcAfterls && leAfterbc) {
 			LOGGER.info("Apartment passed validation checks");
 			em.persist(newApartment);
-			return "Apartment sucessfully Added\",\r\n \"id\" : \"" + newApartment.getId();
+			return "Apartment successfully Added\",\r\n \"id\" : \"" + newApartment.getId();
+		} else if (!isValidApartmentDates(apartment)) {
+			LOGGER.info("Apartment failed validation checks. Apartment has faulty dates e.g. month 15 or day 76.");
+			return "Apartment not added. Apartment has faulty dates e.g. month 15 or day 76.";
+
+		} else if (!bcAfterls) {
+			LOGGER.info(
+					"Apartment failed validation checks. The break clause date for apartment is before the lease start date.");
+			return "Apartment not added. The break clause date for apartment is before the lease start date.";
+
+		} else if (!leAfterbc) {
+			LOGGER.info(
+					"Apartment failed validation checks. The lease end date for apartment is before the break clause date.");
+			return "Apartment not added. The lease end date for apartment is before the break clause date.";
+
 		} else {
-			LOGGER.info("Apartment failed validation checks");
-			return "Apartment not added";
+			LOGGER.info("Apartment failed validation checks. Apartment passed in was null.");
+			return "Apartment not added. Apartment passed in was null.";
 		}
 	}
 
@@ -69,9 +83,9 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 			deleteRooms.setParameter(1, apartment.getId()).executeUpdate();
 
 			em.remove(apartment);
-			return "{\"message\": \"Apartment sucessfully removed\"}";
+			return "{\"message\": \"Apartment sucessfully removed.\"}";
 		}
-		return "{\"message\": \"Apartment wasn't removed\"}";
+		return "{\"message\": \"Apartment wasn't removed. ID passed in links to null apartment.\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
@@ -85,10 +99,25 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 			apartment.setId(selectedApartment.getId());
 			selectedApartment = apartment;
 			em.merge(apartment);
-			return "{\"message\": \"Apartment sucessfully updated\"}";
-		}
+			return "{\"message\": \"Apartment successfully updated\"}";
+		} else if (!isValidApartmentDates(newApartment)) {
+			LOGGER.info("Apartment failed validation checks. Apartment has faulty dates e.g. month 15 or day 76.");
+			return "Apartment not updated. Apartment has faulty dates e.g. month 15 or day 76.";
 
-		return "{\"message\": \"Apartment failed to update\"}";
+		} else if (!bcAfterls) {
+			LOGGER.info(
+					"Apartment failed validation checks. The break clause date for apartment is before the lease start date.");
+			return "Apartment not updated. The break clause date for apartment is before the lease start date.";
+
+		} else if (!leAfterbc) {
+			LOGGER.info(
+					"Apartment failed validation checks. The lease end date for apartment is before the break clause date.");
+			return "Apartment not updated. The lease end date for apartment is before the break clause date.";
+
+		} else {
+			LOGGER.info("Apartment failed validation checks. Apartment passed in was null.");
+			return "Apartment not added. ID passed in links to null apartment.";
+		}
 	}
 
 	private Boolean isValidApartmentDates(String apartment) {

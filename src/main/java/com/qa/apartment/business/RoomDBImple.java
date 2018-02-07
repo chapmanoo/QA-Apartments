@@ -27,10 +27,9 @@ public class RoomDBImple implements RoomService {
 	public String createRoomFromString(String roomJson) {
 		Room aRoom = util.getObjectForJSON(roomJson, Room.class);
 		if (aRoom != null) {
-			createRoomFromRoom(aRoom);
-			return "{\"message\": \"room sucessfully added\"}";
+			return createRoomFromRoom(aRoom);
 		}
-		return "{\"message\": \"ALERT: room unsucessfully created. " + "Room to create is null.\"}";
+		return "{\"message\": \"ALERT: room unsuccessfully created. Room passed in was null.\"}";
 
 	}
 
@@ -38,22 +37,25 @@ public class RoomDBImple implements RoomService {
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createRoomFromRoom(Room room) {
 		if (room != null) {
-			
+
 			Long appId = room.getApartmentId();
 			Query q = em.createNativeQuery("SELECT COUNT(Apartment_ID) FROM ROOM WHERE Apartment_ID= ?1");
 			Query q2 = em.createNativeQuery("SELECT NUMBER_OF_ROOMS FROM APARTMENT WHERE ID = ?2");
 			q.setParameter(1, appId);
 			q2.setParameter(2, appId);
-			
+
 			Integer rowCnt = ((Number) q.getSingleResult()).intValue();
 			Integer roomCnt = ((Number) q2.getSingleResult()).intValue();
-			
-			if(roomCnt > rowCnt) {			
-			em.persist(room);
-			return "{\"message\": \"room sucessfully added\"}";
+
+			if (roomCnt > rowCnt) {
+				em.persist(room);
+				return "{\"message\": \"room successfully added.\"}";
+			} else {
+				return "{\"message\": \"ALERT: room wasn't added. The apartment already has its maximum number of rooms.\"}";
 			}
+
 		}
-		return "{\"message\": \"ALERT: room unsucessfully created. " + "Room to create is null.\"}";
+		return "{\"message\": \"ALERT: room unsuccessfully created. Room passed in was null.\"}";
 
 	}
 
@@ -64,7 +66,7 @@ public class RoomDBImple implements RoomService {
 		if (aRoom != null) {
 			return updateRoomFromRoom(id, aRoom);
 		}
-		return "{\"message\": \"ALERT: room unsucessfully updated. " + "Room passed in is null.\"}";
+		return "{\"message\": \"ALERT: room unsuccessfully updated. Room passed in was null.\"}";
 
 	}
 
@@ -76,9 +78,9 @@ public class RoomDBImple implements RoomService {
 			room.setRoomId(oldRoom.getRoomId());
 			oldRoom = room;
 			em.merge(room);
-			return "{\"message\": \"room sucessfully updated\"}";
+			return "{\"message\": \"room successfully updated\"}";
 		}
-		return "{\"message\": \"ALERT: room unsucessfully updated. " + "Room passed in is null.\"}";
+		return "{\"message\": \"ALERT: room unsuccessfully updated. ID passed in links to null room.\"}";
 	}
 
 	@Override
@@ -87,11 +89,11 @@ public class RoomDBImple implements RoomService {
 		if (findRoom(id) != null) {
 			Query deleteSchedules = em.createNativeQuery("DELETE FROM SCHEDULE WHERE RoomID_RoomId= ?1");
 			deleteSchedules.setParameter(1, findRoom(id).getRoomId()).executeUpdate();
-						
+
 			em.remove(findRoom(id));
-			return "{\"message\": \"room sucessfully deleted\"}";
+			return "{\"message\": \"room successfully deleted\"}";
 		}
-		return "{\"message\": \"ALERT: room unsucessfully deleted. " + "Room to delete is null.\"}";
+		return "{\"message\": \"ALERT: room unsuccessfully deleted. ID passed in links to null room.\"}";
 
 	}
 
