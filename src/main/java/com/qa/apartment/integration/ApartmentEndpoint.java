@@ -43,13 +43,7 @@ public class ApartmentEndpoint {
 	// @Consumes(MediaType.APPLICATION_JSON)
 	public String createApartment(String newAp) {
 		LOGGER.info("in ApartmentEndpoint the value of string is  " + newAp);
-		String toReturn;
-		try {
-			toReturn = service.createApartment(newAp);
-		} catch (Exception e) {
-			toReturn = "Something went wrong. " + e.getMessage().replaceAll("\"", "'");
-		}
-		return "{ \"message\" : \"" + toReturn + "\"}";
+		return service.createApartment(newAp);
 	}
 
 	@DELETE
