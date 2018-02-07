@@ -85,6 +85,9 @@ public class RoomDBImple implements RoomService {
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String deleteRoom(Long id) {
 		if (findRoom(id) != null) {
+			Query deleteSchedules = em.createNativeQuery("DELETE FROM SCHEDULE WHERE RoomID_RoomId= ?1");
+			deleteSchedules.setParameter(1, findRoom(id).getRoomId()).executeUpdate();
+						
 			em.remove(findRoom(id));
 			return "{\"message\": \"room sucessfully deleted\"}";
 		}

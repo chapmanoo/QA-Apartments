@@ -35,8 +35,10 @@ public class ScheduleDBImple implements ScheduleService {
 		LOGGER.info("Schedule string: " + schedule);
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
 		Boolean toAfterFrom = aSchedule.getToDate().compareTo(aSchedule.getFromDate()) >= 0;
+		Boolean fromScheduleAfterLeaseStart = aSchedule.getFromDate().compareTo(aSchedule.getRoomID().getApartment().getLeaseStart()) >= 0;
+		Boolean leaseEndAfterToSchedule = aSchedule.getRoomID().getApartment().getLeaseEnd().compareTo(aSchedule.getToDate()) >= 0;
 		
-		if (aSchedule != null && isValidScheduleDates(schedule) && toAfterFrom) {
+    if (aSchedule != null && isValidScheduleDates(schedule) && toAfterFrom && fromScheduleAfterLeaseStart && leaseEndAfterToSchedule) {
 			Query getFromDate = em.createNativeQuery("SELECT FROM_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
 			Query getToDate = em.createNativeQuery("SELECT TO_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
 			getFromDate.setParameter(1, aSchedule.getPersonID());
@@ -74,8 +76,11 @@ public class ScheduleDBImple implements ScheduleService {
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
 		Schedule selectedSchedule = util.getObjectForJSON(findSchedule(id), Schedule.class);
 		Boolean toAfterFrom = aSchedule.getToDate().compareTo(aSchedule.getFromDate()) >= 0;
+		Boolean fromScheduleAfterLeaseStart = aSchedule.getFromDate().compareTo(aSchedule.getRoomID().getApartment().getLeaseStart()) >= 0;
+		Boolean leaseEndAfterToSchedule = aSchedule.getRoomID().getApartment().getLeaseEnd().compareTo(aSchedule.getToDate()) >= 0;
 		
-		if (selectedSchedule != null && isValidScheduleDates(schedule) && toAfterFrom) {
+		
+		if (selectedSchedule != null && isValidScheduleDates(schedule) && toAfterFrom && fromScheduleAfterLeaseStart && leaseEndAfterToSchedule) {
 			aSchedule.setId(selectedSchedule.getId());
 			
 			Query getFromDate = em.createNativeQuery("SELECT FROM_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");

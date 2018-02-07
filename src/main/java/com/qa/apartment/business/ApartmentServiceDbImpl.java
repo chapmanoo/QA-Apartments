@@ -1,12 +1,16 @@
 package com.qa.apartment.business;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import com.qa.apartment.persistance.Apartment;
+import com.qa.apartment.persistance.Room;
 import com.qa.apartment.util.JSONUtil;
 import com.qa.apartment.util.DateValidator;
 
@@ -38,7 +42,7 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 		Apartment newApartment = util.getObjectForJSON(apartment, Apartment.class);
 		Boolean bcAfterls = newApartment.getBreakClause().compareTo(newApartment.getLeaseStart()) >= 0;
 		Boolean leAfterbc = newApartment.getLeaseEnd().compareTo(newApartment.getBreakClause()) >= 0;
-		
+
 		if (newApartment != null && isValidApartmentDates(apartment) && bcAfterls && leAfterbc) {
 			LOGGER.info("Apartment passed validation checks");
 			em.persist(newApartment);
@@ -51,8 +55,19 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String deleteApartment(Long id) {
-		Apartment apartment = findApartment(new Long(id));
+		Apartment apartment = findApartment(id);
 		if (apartment != null) {
+			TypedQuery<Room> roomsToDelete = em.createQuery("SELECT r FROM Room r WHERE Apartment_id = ?1", Room.class);
+			List<Room> rooms = roomsToDelete.setParameter(1, apartment.getId()).getResultList();
+
+			for (Room room : rooms) {
+				Query deleteSchedules = em.createNativeQuery("DELETE FROM Schedule WHERE RoomID_roomId= ?1");
+				deleteSchedules.setParameter(1, room.getRoomId()).executeUpdate();
+			}
+
+			Query deleteRooms = em.createNativeQuery("DELETE FROM ROOM WHERE Apartment_ID= ?1");
+			deleteRooms.setParameter(1, apartment.getId()).executeUpdate();
+
 			em.remove(apartment);
 			return "{\"message\": \"Apartment sucessfully removed\"}";
 		}
@@ -65,7 +80,7 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 		Apartment selectedApartment = findApartment(id);
 		Boolean bcAfterls = apartment.getBreakClause().compareTo(apartment.getLeaseStart()) >= 0;
 		Boolean leAfterbc = apartment.getLeaseEnd().compareTo(apartment.getBreakClause()) >= 0;
-		
+
 		if (selectedApartment != null && isValidApartmentDates(newApartment) && bcAfterls && leAfterbc) {
 			apartment.setId(selectedApartment.getId());
 			selectedApartment = apartment;
@@ -80,22 +95,19 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 
 		LOGGER.info("String passed in: " + apartment);
 		String[] apartmentArray = apartment.split(",");
-		
+
 		String[] leaseStart = null;
 		String[] leaseEnd = null;
 		String[] breakClause = null;
 
-		for(int i = 0; i < apartmentArray.length; i++) {
-			if (apartmentArray[i].contains("leaseStart"))
-			{
+		for (int i = 0; i < apartmentArray.length; i++) {
+			if (apartmentArray[i].contains("leaseStart")) {
 				leaseStart = apartmentArray[i].split("\"");
 			}
-			if (apartmentArray[i].contains("leaseEnd"))
-			{
+			if (apartmentArray[i].contains("leaseEnd")) {
 				leaseEnd = apartmentArray[i].split("\"");
 			}
-			if (apartmentArray[i].contains("breakClause"))
-			{
+			if (apartmentArray[i].contains("breakClause")) {
 				breakClause = apartmentArray[i].split("\"");
 			}
 		}
