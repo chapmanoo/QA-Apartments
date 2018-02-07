@@ -21,4 +21,11 @@
    xsi:schemaLocation="
       http://xmlns.jcp.org/xml/ns/javaee
       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd" bean-discovery-mode="all">
+		      
+	<alternatives>
+        <!-- <class>com.qa.apartment.business.ApartmentServiceMapImpl</class>
+        <class>com.qa.apartment.business.PersonServiceMapImpl</class>
+        <class>com.qa.apartment.business.RoomServiceImpl</class>
+        <class>com.qa.apartment.business.ScheduleServiceImple</class> -->
+    </alternatives>
 </beans>

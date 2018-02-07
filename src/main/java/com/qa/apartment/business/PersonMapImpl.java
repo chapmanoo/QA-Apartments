@@ -12,7 +12,8 @@ import org.apache.log4j.Logger;
 import com.qa.apartment.persistance.Person;
 import com.qa.apartment.util.JSONUtil;
 
-@Alternative @ApplicationScoped
+@ApplicationScoped
+@Alternative
 public class PersonMapImpl implements PersonService{
 
 	private static final Logger LOGGER = Logger.getLogger(PersonMapImpl.class);

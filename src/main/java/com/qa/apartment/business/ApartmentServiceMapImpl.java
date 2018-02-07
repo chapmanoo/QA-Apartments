@@ -3,10 +3,15 @@ package com.qa.apartment.business;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import com.qa.apartment.persistance.Apartment;
 import com.qa.apartment.util.JSONUtil;
 
+@ApplicationScoped
+@Alternative
 public class ApartmentServiceMapImpl implements ApartmentService {
 
 	private final Long INITIAL_COUNT = 1L;
