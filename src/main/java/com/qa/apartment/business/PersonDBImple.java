@@ -3,6 +3,7 @@ package com.qa.apartment.business;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -59,6 +60,9 @@ public class PersonDBImple implements PersonService {
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String deletePerson(Long id) {
+		Query deleteSchedules = em.createNativeQuery("DELETE FROM Schedule WHERE personID_ID= ?1");
+		deleteSchedules.setParameter(1, findPerson(id).getPersonID()).executeUpdate();
+		
 		em.remove(findPerson(id));
 		return "{\"message\": \"person sucessfully removed\"}";
 	}
