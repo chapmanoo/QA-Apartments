@@ -14,8 +14,8 @@ import com.qa.apartment.util.JSONUtil;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public class PersonDBImple implements PersonService {
-	
-//	private static final Logger LOGGER = Logger.getLogger(PersonDBImple.class);
+
+	// private static final Logger LOGGER = Logger.getLogger(PersonDBImple.class);
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
@@ -28,16 +28,16 @@ public class PersonDBImple implements PersonService {
 		Person aPerson = util.getObjectForJSON(person, Person.class);
 		if (aPerson != null) {
 			em.persist(aPerson);
-			return "{\"message\": \"person sucessfully added\"}";
+			return "{\"message\": \"person successfully added.\"}";
 		}
-		return "{\"message\": \"person wasn't added\"}";
+		return "{\"message\": \"person wasn't added. Person passed in was null.\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String createPersonFromPerson(Person person) {
 		em.persist(person);
-		return "{\"message\": \"person sucessfully added\"}";
-	}
+		return "{\"message\": \"person sucessfully added.\"}";
+	} // This method is never used, hence not checking against null pointers
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String updatePersonFromString(Long id, String newDetails) {
@@ -47,24 +47,29 @@ public class PersonDBImple implements PersonService {
 			aPerson.setPersonID(currentPerson.getPersonID());
 			currentPerson = aPerson;
 			em.merge(currentPerson);
-			return "{\"message\": \"person sucessfully updated\"}";
+			return "{\"message\": \"person successfully updated.\"}";
 		}
-		return "{\"message\": \"person not updated\"}";
+		return "{\"message\": \"person not updated. ID passed in links to null person.\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String updatePersonFromPerson(Long id, Person newDetails) {
 		em.merge(newDetails);
 		return "{\"message\": \"person sucessfully updated\"}";
-	}
+	} // This method is never used, hence not checking against null pointers
 
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String deletePerson(Long id) {
-		Query deleteSchedules = em.createNativeQuery("DELETE FROM Schedule WHERE personID_ID= ?1");
-		deleteSchedules.setParameter(1, findPerson(id).getPersonID()).executeUpdate();
-		
-		em.remove(findPerson(id));
-		return "{\"message\": \"person sucessfully removed\"}";
+		Person person = findPerson(id);
+		if (person != null) {
+			Query deleteSchedules = em.createNativeQuery("DELETE FROM Schedule WHERE personID_ID= ?1");
+			deleteSchedules.setParameter(1, findPerson(id).getPersonID()).executeUpdate();
+
+			em.remove(findPerson(id));
+			return "{\"message\": \"person successfully removed.\"}";
+		}
+		return "{\"message\": \"person wasn't removed. ID passed in links to null person.\"}";
+
 	}
 
 	public String findAllPersons() {
