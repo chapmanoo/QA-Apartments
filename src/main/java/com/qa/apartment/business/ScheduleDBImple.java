@@ -34,29 +34,50 @@ public class ScheduleDBImple implements ScheduleService {
 	public String createScheduleFromString(String schedule) {
 		LOGGER.info("Schedule string: " + schedule);
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
-		
-    if (aSchedule != null && isValidScheduleDates(schedule) && odv.checkAfterOrEqual(aSchedule.getToDate(), aSchedule.getFromDate()) 
-    		&& odv.checkAfterOrEqual(aSchedule.getFromDate(), aSchedule.getRoomID().getApartment().getLeaseStart()) 
-    		&& odv.checkAfterOrEqual(aSchedule.getRoomID().getApartment().getLeaseEnd(), aSchedule.getToDate())) {
-    	
+
+		if (aSchedule != null && isValidScheduleDates(schedule)
+				&& odv.checkAfterOrEqual(aSchedule.getToDate(), aSchedule.getFromDate())
+				&& odv.checkAfterOrEqual(aSchedule.getFromDate(), aSchedule.getRoomID().getApartment().getLeaseStart())
+				&& odv.checkAfterOrEqual(aSchedule.getRoomID().getApartment().getLeaseEnd(), aSchedule.getToDate())) {
+
 			Query getToDate = em.createNativeQuery("SELECT TO_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
 			getToDate.setParameter(1, aSchedule.getPersonID());
 			List dateTo = getToDate.getResultList();
-			
-			Boolean goodDate = true;
-			for(Object datesTo: dateTo) {
-				Date dT = (Date)datesTo;
-				if(!odv.checkAfterOrEqual(aSchedule.getFromDate(), dT)) {
-					goodDate = false;
-					break;
+
+			for (Object datesTo : dateTo) {
+				Date dT = (Date) datesTo;
+				if (!odv.checkAfterOrEqual(aSchedule.getFromDate(), dT)) {
+					LOGGER.info(
+							"Schedule passed validation checks. However, the schedule would overlap with a schedule before it, so has not been added.");
+					return "Schedule not added. The schedule would overlap with a schedule before it, so has not been added.";
 				}
 			}
-			if(goodDate) {
-				em.persist(aSchedule);
-				return "{\"message\": \"schedule sucessfully added\"}";
-			}
+
+			em.persist(aSchedule);
+			return "{\"message\": \"schedule successfully added.\"}";
+
+		} else if (aSchedule == null) {
+			LOGGER.info("Schedule failed validation checks. Schedule passed in was null.");
+			return "Schedule not added. Schedule passed in was null.";
+		} else if (!isValidScheduleDates(schedule)) {
+			LOGGER.info("Schedule failed validation checks. Schedule has faulty dates e.g. month 15 or day 76.");
+			return "Schedule not added. Schedule has faulty dates e.g. month 15 or day 76.";
+		} else if (!odv.checkAfterOrEqual(aSchedule.getToDate(), aSchedule.getFromDate())) {
+			LOGGER.info("Schedule failed validation checks. The to_date for schedule is before the from_date.");
+			return "Schedule not added. The to_date for schedule is before the from_date.";
+		} else if (!odv.checkAfterOrEqual(aSchedule.getFromDate(),
+				aSchedule.getRoomID().getApartment().getLeaseStart())) {
+			LOGGER.info(
+					"Schedule failed validation checks. The from_date in schedule is before the lease start date for the apartment in the schedule.");
+			return "Schedule not added. The from_date in schedule is before the lease start date for the apartment in the schedule.";
+		} else if (!odv.checkAfterOrEqual(aSchedule.getRoomID().getApartment().getLeaseEnd(), aSchedule.getToDate())) {
+			LOGGER.info(
+					"Schedule failed validation checks. The lease end date for the apartment in the schedule is before the to_date in the schedule.");
+			return "Schedule not added. The lease end date for the apartment in the schedule is before the to_date in the schedule.";
+		} else {
+			LOGGER.info("Schedule failed validation checks. No more detail can be given.");
+			return "Schedule not added. Schedule failed validation checks. No more detail can be given.";
 		}
-		return "{\"message\": \"schedule not added\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
@@ -68,33 +89,56 @@ public class ScheduleDBImple implements ScheduleService {
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String updateSchedule(Long id, String schedule) {
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
-		Schedule selectedSchedule = util.getObjectForJSON(findSchedule(id), Schedule.class);		
-		
-		if (aSchedule != null && selectedSchedule!= null && isValidScheduleDates(schedule) && odv.checkAfterOrEqual(aSchedule.getToDate(), aSchedule.getFromDate()) 
-	    		&& odv.checkAfterOrEqual(aSchedule.getFromDate(), aSchedule.getRoomID().getApartment().getLeaseStart()) 
-	    		&& odv.checkAfterOrEqual(aSchedule.getRoomID().getApartment().getLeaseEnd(), aSchedule.getToDate())) {
-			
+		Schedule selectedSchedule = util.getObjectForJSON(findSchedule(id), Schedule.class);
+
+		if (aSchedule != null && selectedSchedule != null && isValidScheduleDates(schedule)
+				&& odv.checkAfterOrEqual(aSchedule.getToDate(), aSchedule.getFromDate())
+				&& odv.checkAfterOrEqual(aSchedule.getFromDate(), aSchedule.getRoomID().getApartment().getLeaseStart())
+				&& odv.checkAfterOrEqual(aSchedule.getRoomID().getApartment().getLeaseEnd(), aSchedule.getToDate())) {
+
 			aSchedule.setId(selectedSchedule.getId());
-			
+
 			Query getToDate = em.createNativeQuery("SELECT TO_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
 			getToDate.setParameter(1, aSchedule.getPersonID());
 			List dateTo = getToDate.getResultList();
-			
-			Boolean goodDate = true;
-			for(Object datesTo: dateTo) {
-				Date dT = (Date)datesTo;
-				if(!odv.checkAfterOrEqual(aSchedule.getFromDate(), dT)) {
-					goodDate = false;
-					break;
+
+			for (Object datesTo : dateTo) {
+				Date dT = (Date) datesTo;
+				if (!odv.checkAfterOrEqual(aSchedule.getFromDate(), dT)) {
+					LOGGER.info(
+							"Schedule passed validation checks. However, the schedule would overlap with a schedule before it, so has not been updated.");
+					return "Schedule not updated. The schedule would overlap with a schedule before it, so has not been updated.";
 				}
 			}
-			
-			if(goodDate) {
-				em.merge(aSchedule);
-				return "{\"message\": \"schedule sucessfully updated\"}";
-			}
+
+			em.merge(aSchedule);
+			return "{\"message\": \"schedule successfully updated\"}";
+
+		} else if (aSchedule == null) {
+			LOGGER.info("Schedule failed validation checks. Schedule passed in was null.");
+			return "Schedule not updated. Schedule passed in was null.";
+		} else if (selectedSchedule == null) {
+			LOGGER.info("Schedule failed validation checks. Schedule at the ID given as a path parameter was null.");
+			return "Schedule not updated. Schedule passed in was null.";
+		} else if (!isValidScheduleDates(schedule)) {
+			LOGGER.info("Schedule failed validation checks. Schedule has faulty dates e.g. month 15 or day 76.");
+			return "Schedule not updated. Schedule has faulty dates e.g. month 15 or day 76.";
+		} else if (!odv.checkAfterOrEqual(aSchedule.getToDate(), aSchedule.getFromDate())) {
+			LOGGER.info("Schedule failed validation checks. The to_date for schedule is before the from_date.");
+			return "Schedule not updated. The to_date for schedule is before the from_date.";
+		} else if (!odv.checkAfterOrEqual(aSchedule.getFromDate(),
+				aSchedule.getRoomID().getApartment().getLeaseStart())) {
+			LOGGER.info(
+					"Schedule failed validation checks. The from_date in schedule is before the lease start date for the apartment in the schedule.");
+			return "Schedule not updated. The from_date in schedule is before the lease start date for the apartment in the schedule.";
+		} else if (!odv.checkAfterOrEqual(aSchedule.getRoomID().getApartment().getLeaseEnd(), aSchedule.getToDate())) {
+			LOGGER.info(
+					"Schedule failed validation checks. The lease end date for the apartment in the schedule is before the to_date in the schedule.");
+			return "Schedule not updated. The lease end date for the apartment in the schedule is before the to_date in the schedule.";
+		} else {
+			LOGGER.info("Schedule failed validation checks. No more detail can be given.");
+			return "Schedule not updated. Schedule failed validation checks. No more detail can be given.";
 		}
-		return "{\"message\": \"schedule not updated\"}";
 	}
 
 	public String findSchedule(Long id) {
