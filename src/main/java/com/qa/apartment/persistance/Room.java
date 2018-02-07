@@ -24,6 +24,14 @@ public class Room {
 	private Apartment apartment;
 	
 
+	public Apartment getApartment() {
+		return apartment;
+	}
+
+	public void setApartment(Apartment apartment) {
+		this.apartment = apartment;
+	}
+
 	public Room() {
 		LOGGER.info("Inside ROOM empty constructor");
 	}
