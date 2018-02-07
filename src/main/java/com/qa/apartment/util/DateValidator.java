@@ -1,5 +1,7 @@
 package com.qa.apartment.util;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
 public class DateValidator {
@@ -57,4 +59,33 @@ public class DateValidator {
 		return true;
 
 	}
+	
+	public Boolean checkBefore(Date date1, Date date2) {
+		if(date1.compareTo(date2) <0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Boolean checkAfter(Date date1, Date date2) {
+		if(date1.compareTo(date2) > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Boolean checkBeforeOrEqual(Date date1, Date date2) {
+		if(date1.compareTo(date2) <=0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Boolean checkAfterOrEqual(Date date1, Date date2) {
+		if(date1.compareTo(date2) >= 0) {
+			return true;
+		}
+		return false;
+	}
+	
 }

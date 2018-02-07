@@ -34,25 +34,19 @@ public class ScheduleDBImple implements ScheduleService {
 	public String createScheduleFromString(String schedule) {
 		LOGGER.info("Schedule string: " + schedule);
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
-		Boolean toAfterFrom = aSchedule.getToDate().compareTo(aSchedule.getFromDate()) >= 0;
-		Boolean fromScheduleAfterLeaseStart = aSchedule.getFromDate().compareTo(aSchedule.getRoomID().getApartment().getLeaseStart()) >= 0;
-		Boolean leaseEndAfterToSchedule = aSchedule.getRoomID().getApartment().getLeaseEnd().compareTo(aSchedule.getToDate()) >= 0;
 		
-    if (aSchedule != null && isValidScheduleDates(schedule) && toAfterFrom && fromScheduleAfterLeaseStart && leaseEndAfterToSchedule) {
-			Query getFromDate = em.createNativeQuery("SELECT FROM_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
+    if (aSchedule != null && isValidScheduleDates(schedule) && odv.checkAfterOrEqual(aSchedule.getToDate(), aSchedule.getFromDate()) 
+    		&& odv.checkAfterOrEqual(aSchedule.getFromDate(), aSchedule.getRoomID().getApartment().getLeaseStart()) 
+    		&& odv.checkAfterOrEqual(aSchedule.getRoomID().getApartment().getLeaseEnd(), aSchedule.getToDate())) {
+    	
 			Query getToDate = em.createNativeQuery("SELECT TO_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
-			getFromDate.setParameter(1, aSchedule.getPersonID());
 			getToDate.setParameter(1, aSchedule.getPersonID());
-			List dateFrom = getFromDate.getResultList();
 			List dateTo = getToDate.getResultList();
 			
 			Boolean goodDate = true;
-			
 			for(Object datesTo: dateTo) {
-				Date dF = (Date)datesTo;
-				if(aSchedule.getFromDate().compareTo(dF) >= 0) {
-					
-				} else {
+				Date dT = (Date)datesTo;
+				if(!odv.checkAfterOrEqual(aSchedule.getFromDate(), dT)) {
 					goodDate = false;
 					break;
 				}
@@ -74,29 +68,22 @@ public class ScheduleDBImple implements ScheduleService {
 	@Transactional(Transactional.TxType.REQUIRED)
 	public String updateSchedule(Long id, String schedule) {
 		Schedule aSchedule = util.getObjectForJSON(schedule, Schedule.class);
-		Schedule selectedSchedule = util.getObjectForJSON(findSchedule(id), Schedule.class);
-		Boolean toAfterFrom = aSchedule.getToDate().compareTo(aSchedule.getFromDate()) >= 0;
-		Boolean fromScheduleAfterLeaseStart = aSchedule.getFromDate().compareTo(aSchedule.getRoomID().getApartment().getLeaseStart()) >= 0;
-		Boolean leaseEndAfterToSchedule = aSchedule.getRoomID().getApartment().getLeaseEnd().compareTo(aSchedule.getToDate()) >= 0;
+		Schedule selectedSchedule = util.getObjectForJSON(findSchedule(id), Schedule.class);		
 		
-		
-		if (selectedSchedule != null && isValidScheduleDates(schedule) && toAfterFrom && fromScheduleAfterLeaseStart && leaseEndAfterToSchedule) {
+		if (aSchedule != null && selectedSchedule!= null && isValidScheduleDates(schedule) && odv.checkAfterOrEqual(aSchedule.getToDate(), aSchedule.getFromDate()) 
+	    		&& odv.checkAfterOrEqual(aSchedule.getFromDate(), aSchedule.getRoomID().getApartment().getLeaseStart()) 
+	    		&& odv.checkAfterOrEqual(aSchedule.getRoomID().getApartment().getLeaseEnd(), aSchedule.getToDate())) {
+			
 			aSchedule.setId(selectedSchedule.getId());
 			
-			Query getFromDate = em.createNativeQuery("SELECT FROM_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
 			Query getToDate = em.createNativeQuery("SELECT TO_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
-			getFromDate.setParameter(1, aSchedule.getPersonID());
 			getToDate.setParameter(1, aSchedule.getPersonID());
-			List dateFrom = getFromDate.getResultList();
 			List dateTo = getToDate.getResultList();
 			
 			Boolean goodDate = true;
-			
 			for(Object datesTo: dateTo) {
-				Date dF = (Date)datesTo;
-				if(aSchedule.getFromDate().compareTo(dF) >= 0) {
-					
-				} else {
+				Date dT = (Date)datesTo;
+				if(!odv.checkAfterOrEqual(aSchedule.getFromDate(), dT)) {
 					goodDate = false;
 					break;
 				}
