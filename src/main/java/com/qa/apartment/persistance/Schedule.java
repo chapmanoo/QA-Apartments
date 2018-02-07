@@ -87,10 +87,6 @@ public class Schedule{
 		this.to_date = to_date;
 	}
 
-	public Person getPersonID() {
-		return personID;
-	}
-
 	public void setPersonID(Person personID) {
 		this.personID = personID;
 	}
@@ -101,5 +97,9 @@ public class Schedule{
 
 	public void setRoomID(Room roomID) {
 		this.roomID = roomID;
+	}
+	
+	public Long getPersonID() {
+		return personID.getPersonID();
 	}
 }
