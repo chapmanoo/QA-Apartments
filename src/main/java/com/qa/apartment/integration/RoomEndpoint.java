@@ -39,14 +39,14 @@ public class RoomEndpoint {
 	@POST
 	@Path("/json")
 	@Consumes("application/json")
-	public void createRoom(String json) {
-		roomService.createRoomFromString(json);
+	public String createRoom(String json) {
+		return roomService.createRoomFromString(json);
 	}
 
 	@DELETE
 	@Path("/json/{id}")
-	public void deleteRoom(@PathParam("id") long id) {
-		roomService.deleteRoom(id);
+	public String deleteRoom(@PathParam("id") long id) {
+		return roomService.deleteRoom(id);
 	}
 
 }
