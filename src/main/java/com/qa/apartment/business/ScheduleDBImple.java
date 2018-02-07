@@ -1,13 +1,17 @@
 package com.qa.apartment.business;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
+
 import com.qa.apartment.persistance.Schedule;
 import com.qa.apartment.util.JSONUtil;
 import com.qa.apartment.util.DateValidator;
@@ -33,8 +37,28 @@ public class ScheduleDBImple implements ScheduleService {
 		Boolean toAfterFrom = aSchedule.getToDate().compareTo(aSchedule.getFromDate()) >= 0;
 		
 		if (aSchedule != null && isValidScheduleDates(schedule) && toAfterFrom) {
-			em.persist(aSchedule);
-			return "{\"message\": \"schedule sucessfully added\"}";
+			Query getFromDate = em.createNativeQuery("SELECT FROM_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
+			Query getToDate = em.createNativeQuery("SELECT TO_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
+			getFromDate.setParameter(1, aSchedule.getPersonID());
+			getToDate.setParameter(1, aSchedule.getPersonID());
+			List dateFrom = getFromDate.getResultList();
+			List dateTo = getToDate.getResultList();
+			
+			Boolean goodDate = true;
+			
+			for(Object datesTo: dateTo) {
+				Date dF = (Date)datesTo;
+				if(aSchedule.getFromDate().compareTo(dF) >= 0) {
+					
+				} else {
+					goodDate = false;
+					break;
+				}
+			}
+			if(goodDate) {
+				em.persist(aSchedule);
+				return "{\"message\": \"schedule sucessfully added\"}";
+			}
 		}
 		return "{\"message\": \"schedule not added\"}";
 	}
@@ -53,8 +77,30 @@ public class ScheduleDBImple implements ScheduleService {
 		
 		if (selectedSchedule != null && isValidScheduleDates(schedule) && toAfterFrom) {
 			aSchedule.setId(selectedSchedule.getId());
-			em.merge(aSchedule);
-			return "{\"message\": \"schedule sucessfully updated\"}";
+			
+			Query getFromDate = em.createNativeQuery("SELECT FROM_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
+			Query getToDate = em.createNativeQuery("SELECT TO_DATE FROM SCHEDULE WHERE PERSONID_ID = ?1");
+			getFromDate.setParameter(1, aSchedule.getPersonID());
+			getToDate.setParameter(1, aSchedule.getPersonID());
+			List dateFrom = getFromDate.getResultList();
+			List dateTo = getToDate.getResultList();
+			
+			Boolean goodDate = true;
+			
+			for(Object datesTo: dateTo) {
+				Date dF = (Date)datesTo;
+				if(aSchedule.getFromDate().compareTo(dF) >= 0) {
+					
+				} else {
+					goodDate = false;
+					break;
+				}
+			}
+			
+			if(goodDate) {
+				em.merge(aSchedule);
+				return "{\"message\": \"schedule sucessfully updated\"}";
+			}
 		}
 		return "{\"message\": \"schedule not updated\"}";
 	}
