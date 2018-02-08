@@ -30,7 +30,7 @@ public class PersonDBImple implements PersonService {
 			em.persist(aPerson);
 			return "{\"message\": \"person successfully added.\"}";
 		}
-		return "{\"message\": \"person wasn't added. Person passed in was null.\"}";
+		return "{\"message\": \"ALERT: person wasn't added. Person passed in was null.\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
@@ -49,7 +49,7 @@ public class PersonDBImple implements PersonService {
 			em.merge(currentPerson);
 			return "{\"message\": \"person successfully updated.\"}";
 		}
-		return "{\"message\": \"person not updated. ID passed in links to null person.\"}";
+		return "{\"message\": \"ALERT: person not updated. ID passed in links to null person.\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
@@ -68,7 +68,7 @@ public class PersonDBImple implements PersonService {
 			em.remove(findPerson(id));
 			return "{\"message\": \"person successfully removed.\"}";
 		}
-		return "{\"message\": \"person wasn't removed. ID passed in links to null person.\"}";
+		return "{\"message\": \"ALERT: person wasn't removed. ID passed in links to null person.\"}";
 
 	}
 
