@@ -9,6 +9,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.qa.apartment.business.PersonDBImple;
 import com.qa.apartment.persistance.Person;
@@ -36,18 +38,44 @@ public class PersonEndpoint {
 		Person toReturn = service.findPerson(id);
 		return util.getJSONForObject(toReturn);
 	}
-
+	
 	@POST
 	@Path("/json")
 	@Consumes("application/json")
-	public String createPerson(String personToAdd) {
-		return service.createPersonFromString(personToAdd);
+	public Response createPerson(String newPerson) {
+		String toReturn;
+		ResponseBuilder response;
+		try {
+			toReturn = service.createPersonFromString(newPerson);
+			response = Response.status(Response.Status.OK);
+
+		} catch (Exception e) {
+			toReturn = "{\"message\": \"ALERT: Person not added. " + e + "\"}";
+			response = Response.status(Response.Status.BAD_REQUEST);
+		}
+		return response.entity(toReturn).build();
 	}
 
-	@PUT
+	/*@PUT
 	@Path("/json/{id}")
 	public String updatePerson(@PathParam("id") Long id, String newDetails) {
 		return service.updatePersonFromString(id, newDetails);
+	}*/
+	
+	@PUT
+	@Path("/json/{id}")
+	public Response updatePerson(@PathParam("id") Long id, String newPerson) {
+		String toReturn;
+		ResponseBuilder response;
+		try {
+			toReturn = service.updatePersonFromString(id, newPerson);
+			response = Response.status(Response.Status.OK);
+
+		} catch (Exception e) {
+			toReturn = "{\"message\": \"ALERT: Person not updated. " + e + "\"}";
+			response = Response.status(Response.Status.BAD_REQUEST);
+		}
+		return response.entity(toReturn).build();
 	}
 
 	@DELETE
