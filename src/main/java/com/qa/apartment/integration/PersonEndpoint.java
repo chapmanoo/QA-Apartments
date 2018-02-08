@@ -55,12 +55,6 @@ public class PersonEndpoint {
 		}
 		return response.entity(toReturn).build();
 	}
-
-	/*@PUT
-	@Path("/json/{id}")
-	public String updatePerson(@PathParam("id") Long id, String newDetails) {
-		return service.updatePersonFromString(id, newDetails);
-	}*/
 	
 	@PUT
 	@Path("/json/{id}")
