@@ -46,25 +46,25 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 				&& dv.checkAfterOrEqual(newApartment.getLeaseEnd(), newApartment.getBreakClause())) {
 			LOGGER.info("Apartment passed validation checks");
 			em.persist(newApartment);
-			return "Apartment successfully Added\",\r\n \"id\" : \"" + newApartment.getId();
+			return "{\"message\": \"Apartment successfully Added.\"}";
 			
 		} else if (!isValidApartmentDates(apartment)) {
 			LOGGER.info("Apartment failed validation checks. Apartment has faulty dates e.g. month 15 or day 76.");
-			return "Apartment not added. Apartment has faulty dates e.g. month 15 or day 76.";
+			return "{\"message\": \"ALERT: Apartment not added. Apartment has faulty dates e.g. month 15 or day 76.\"}";
 
 		} else if (!dv.checkAfterOrEqual(newApartment.getBreakClause(), newApartment.getLeaseStart())) {
 			LOGGER.info(
 					"Apartment failed validation checks. The break clause date for apartment is before the lease start date.");
-			return "Apartment not added. The break clause date for apartment is before the lease start date.";
+			return "{\"message\": \"ALERT: Apartment not added. The break clause date for apartment is before the lease start date.\"}";
 
 		} else if (!dv.checkAfterOrEqual(newApartment.getLeaseEnd(), newApartment.getBreakClause())) {
 			LOGGER.info(
 					"Apartment failed validation checks. The lease end date for apartment is before the break clause date.");
-			return "Apartment not added. The lease end date for apartment is before the break clause date.";
+			return "{\"message\": \"ALERT: Apartment not added. The lease end date for apartment is before the break clause date.\"}";
 
 		} else {
 			LOGGER.info("Apartment failed validation checks. Apartment passed in was null.");
-			return "Apartment not added. Apartment passed in was null.";
+			return "{\"message\": \"ALERT: Apartment not added. Apartment passed in was null.\"}";
 		}
 	}
 
@@ -86,7 +86,7 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 			em.remove(apartment);
 			return "{\"message\": \"Apartment sucessfully removed.\"}";
 		}
-		return "{\"message\": \"Apartment wasn't removed. ID passed in links to null apartment.\"}";
+		return "{\"message\": \"ALERT: Apartment wasn't removed. ID passed in links to null apartment.\"}";
 	}
 
 	@Transactional(Transactional.TxType.REQUIRED)
@@ -106,21 +106,21 @@ public class ApartmentServiceDbImpl implements ApartmentService {
 			
 		} else if (!isValidApartmentDates(newApartment)) {
 			LOGGER.info("Apartment failed validation checks. Apartment has faulty dates e.g. month 15 or day 76.");
-			return "Apartment not updated. Apartment has faulty dates e.g. month 15 or day 76.";
+			return "{\"message\": \"ALERT: Apartment not updated. Apartment has faulty dates e.g. month 15 or day 76.\"}";
 
 		} else if (!dv.checkAfterOrEqual(apartment.getBreakClause(), apartment.getLeaseStart())) {
 			LOGGER.info(
 					"Apartment failed validation checks. The break clause date for apartment is before the lease start date.");
-			return "Apartment not updated. The break clause date for apartment is before the lease start date.";
+			return "{\"message\": \"ALERT: Apartment not updated. The break clause date for apartment is before the lease start date.\"}";
 
 		} else if (!dv.checkAfterOrEqual(apartment.getLeaseEnd(), apartment.getBreakClause())) {
 			LOGGER.info(
 					"Apartment failed validation checks. The lease end date for apartment is before the break clause date.");
-			return "Apartment not updated. The lease end date for apartment is before the break clause date.";
+			return "{\"message\": \"ALERT: Apartment not updated. The lease end date for apartment is before the break clause date.\"}";
 
 		} else {
 			LOGGER.info("Apartment failed validation checks. Apartment passed in was null.");
-			return "Apartment not added. ID passed in links to null apartment.";
+			return "{\"message\": \"ALERT: Apartment not added. ID passed in links to null apartment.\"}";
 		}
 	}
 
