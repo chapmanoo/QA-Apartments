@@ -9,13 +9,16 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
 import org.apache.log4j.Logger;
 import com.qa.apartment.business.ScheduleDBImple;
 
 @Path("/schedule")
-//@Produces("application/json")
+// @Produces("application/json")
 public class ScheduleEndPoint {
-	
+
 	private static final Logger LOGGER = Logger.getLogger(ScheduleEndPoint.class);
 
 	@Inject
@@ -35,10 +38,20 @@ public class ScheduleEndPoint {
 
 	@POST
 	@Path("/json")
-	//@Consumes("application/json")
-	public String addNewBookToMap(String schedule) {
+	// @Consumes("application/json")
+	public Response addSchedule(String schedule) {
 		LOGGER.info("POST on schedule started");
-		return impl.createScheduleFromString(schedule);
+		String toReturn;
+		ResponseBuilder response;
+		try {
+			toReturn = impl.createScheduleFromString(schedule);
+			response = Response.status(Response.Status.OK);
+
+		} catch (Exception e) {
+			toReturn = "{\"message\": \"ALERT: Schedule not added. " + e + "\"}";
+			response = Response.status(Response.Status.BAD_REQUEST);
+		}
+		return response.entity(toReturn).build();
 	}
 
 	@DELETE
@@ -50,8 +63,17 @@ public class ScheduleEndPoint {
 	@PUT
 	@Path("/json/{id}")
 	@Consumes("application/json")
-	public String updateSchedule(@PathParam("id") Long id, String schedule) {
-		return updateSchedule(id, schedule);
+	public Response updateSchedule(@PathParam("id") Long id, String schedule) {
+		String toReturn;
+		ResponseBuilder response;
+		try {
+			toReturn = impl.updateSchedule(id, schedule);
+			response = Response.status(Response.Status.OK);
+		} catch (Exception e) {
+			toReturn = "{\"message\": \"ALERT: Schedule not updated. " + e + "\"}";
+			response = Response.status(Response.Status.BAD_REQUEST);
+		}
+		return response.entity(toReturn).build();
 	}
 
 }

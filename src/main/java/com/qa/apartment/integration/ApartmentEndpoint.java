@@ -10,6 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.log4j.Logger;
 import com.qa.apartment.business.ApartmentServiceDbImpl;
@@ -41,9 +43,19 @@ public class ApartmentEndpoint {
 	@POST
 	@Path("/json")
 	// @Consumes(MediaType.APPLICATION_JSON)
-	public String createApartment(String newAp) {
+	public Response createApartment(String newAp) {
 		LOGGER.info("in ApartmentEndpoint the value of string is  " + newAp);
-		return service.createApartment(newAp);
+		String toReturn;
+		ResponseBuilder response;
+		try {
+			toReturn = service.createApartment(newAp);
+			response = Response.status(Response.Status.OK);
+
+		} catch (Exception e) {
+			toReturn = "{\"message\": \"ALERT: Apartment not added. " + e + "\"}";
+			response = Response.status(Response.Status.BAD_REQUEST);
+		}
+		return response.entity(toReturn).build();
 	}
 
 	@DELETE
@@ -55,8 +67,18 @@ public class ApartmentEndpoint {
 	@PUT
 	@Path("/json/{id}")
 	@Consumes("application/json")
-	public String updateApartment(String newAp, @PathParam("id") Long id) {
-		return service.updateApartment(id, newAp);
+	public Response updateApartment(String newAp, @PathParam("id") Long id) {
+		String toReturn;
+		ResponseBuilder response;
+		try {
+			toReturn = service.updateApartment(id, newAp);
+			response = Response.status(Response.Status.OK);
+
+		} catch (Exception e) {
+			toReturn = "{\"message\": \"ALERT: Apartment not updated. " + e + "\"}";
+			response = Response.status(Response.Status.BAD_REQUEST);
+		}
+		return response.entity(toReturn).build();
 	}
 
 }
